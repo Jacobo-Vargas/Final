@@ -60,15 +60,20 @@ public class ClienteService {
             clienteRepository.deleteById(id);
             return ResponseEntity.ok("Se elimino con éxito");
         } else {
-            return ResponseEntity.ok("Cliente no se encuentra registrado");
+            return ResponseEntity.notFound().build();
         }
     }
 
     public ResponseEntity<?> obtenerById(long id) {
-        if(clienteRepository.existsById(id)){
-            return ResponseEntity.ok(clienteRepository.findById(id));
-        } else {
-            return ResponseEntity.ok("Cliente no se encuentra registrado");
+        try{
+            if(clienteRepository.existsById(id)){
+                Cliente cliente = clienteRepository.findById(id).orElse(null);
+                return ResponseEntity.ok(cliente);
+            } else {
+                return ResponseEntity.notFound().build();
+            }
+        } catch (Exception e){
+            return ResponseEntity.badRequest().body("Waiting to Long");
         }
     }
 }

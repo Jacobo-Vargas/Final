@@ -36,7 +36,12 @@ public class ClienteController {
 
     @GetMapping("/obtenerCliente/{id}")
     public ResponseEntity<?> obtenerById(@PathVariable long id){
-        return clienteService.obtenerById(id);
+        try{
+            return clienteService.obtenerById(id);
+        } catch (Exception e){
+            return ResponseEntity.badRequest().body("Waiting a long");
+        }
+
     }
 
 }
