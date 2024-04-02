@@ -1,7 +1,7 @@
 package com.example.mercadoapp.viewController;
 
 import com.example.mercadoapp.dto.ClienteDTO;
-import com.example.mercadoapp.service.ApiServiceCliente;
+import com.example.mercadoapp.apiService.ApiServiceCliente;
 import com.example.mercadoapp.util.MercadoUtils;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
