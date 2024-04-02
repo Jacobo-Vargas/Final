@@ -47,15 +47,12 @@ public class MercadoUQViewController {
     private ApiServiceCliente apiServiceCliente;
 
     public void initialize(){
-        init();
-    }
-
-    private void init() {
         tableClientes.setItems(listaClientes);
         this.apiServiceCliente = new ApiServiceCliente();
         initDataBinding();
     }
 
+    @SuppressWarnings("StringConcatenationInLoop")
     @FXML
     private void load() {
         try{

@@ -17,12 +17,9 @@ import java.util.List;
 public class MercadoUtils {
 
     public static File buscarArchivo() {
-
         FileChooser fileChooser = new FileChooser();
         fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("CSV", "*.csv"));
         return  fileChooser.showOpenDialog(new Stage());
-
-
     }
 
     public static List<ClienteDTO> loadClientesDesdeCSV(File archivo) throws IOException {
