@@ -1,81 +1,85 @@
 package com.example.mercadoapp.service;
+
 import com.example.mercadoapp.dto.ClienteDTO;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.io.OutputStream;
 import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.Base64;
 import java.util.List;
+
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import okhttp3.*;
 
 public class ApiServiceCliente {
 
+    private final OkHttpClient client;
+
+    public ApiServiceCliente() {
+        this.client = new OkHttpClient();
+    }
+
     public List<ClienteDTO> obtenerClientes() throws IOException {
+        ArrayList<ClienteDTO> respuesta = new ArrayList<>();
+        respuesta.ensureCapacity(500);
+
         URL url = new URL("http://localhost:8080/obtenerClientes");
-        HttpURLConnection con = (HttpURLConnection) url.openConnection();
-        con.setRequestMethod("GET");
-        con.setRequestProperty("Authorization", setCredentials());
-        String datos = getDataRequest(con);
-        List<ClienteDTO> clientesDTO = new Gson().fromJson(datos, new TypeToken<List<ClienteDTO>>() {}.getType());
-        con.disconnect();
-        return clientesDTO;
-    }
+        Request request = new Request.Builder().url(url).get().build(); // crea la solicitud POST
 
-    public List<Long> registrarClientes(List<ClienteDTO> lista) throws IOException {
-        URL url = new URL("http://localhost:8080/registrarClientes");
-        HttpURLConnection con = (HttpURLConnection) url.openConnection();
-        con.setRequestMethod("POST");
-        con.setRequestProperty("Content-Type", "application/json");
-        con.setRequestProperty("Authorization", setCredentials());
-        con.setDoOutput(true);
-
-        // Convertir la lista de ClienteDTO a JSON y enviarla al servidor
-        try (OutputStream outputStream = con.getOutputStream()) {
-            Gson gson = new Gson();
-            String jsonInputString = gson.toJson(lista);
-            outputStream.write(jsonInputString.getBytes());
-        }
-
-        // Leer la respuesta del servidor
-        StringBuilder response = new StringBuilder();
-        try (BufferedReader in = new BufferedReader(new InputStreamReader(con.getInputStream()))) {
-            String inputLine;
-            while ((inputLine = in.readLine()) != null) {
-                response.append(inputLine);
+        try(Response response = client.newCall(request).execute()){
+            if(!response.isSuccessful()){
+                System.out.println(response.message());
             }
+            String responseBody = response.body().string();
+            respuesta = new Gson().fromJson(responseBody, new TypeToken<List<ClienteDTO>>() {}.getType());
+        }catch (Exception e) {
+            System.out.println("Error en la petición.");
         }
-        String datos = response.toString();
+        return respuesta;
+    }
 
-        // Convertir la respuesta JSON a una lista de Long
-        List<Long> clientesDTO = new Gson().fromJson(datos, new TypeToken<List<Long>>() {}.getType());
+    public List<Long> registrarClientes(List<ClienteDTO> lista) throws MalformedURLException {
 
-        con.disconnect();
-        return clientesDTO;
+        ArrayList<Long> respuesta = new ArrayList<>();
+        respuesta.ensureCapacity(500);
+
+        URL url = new URL("http://localhost:8080/registrarClientes"); // url del endpoint
+        String mensaje = new Gson().toJson(lista); // mensaje que se le envía al endpoint
+        RequestBody body = RequestBody.create(mensaje, MediaType.parse("application/json")); // crea el cuerpo de la solicitud
+        Request request = new Request.Builder().url(url).post(body).build(); // crea la solicitud POST
+
+        // ejecutar la solicitud y obtener la respuesta
+        try (Response response = client.newCall(request).execute()) {
+            // verificar si la solicitud fue exitosa
+            if (!response.isSuccessful()) {
+                System.out.println(response.message());
+                return respuesta;
+            }
+            String responseBody = response.body().string();
+            respuesta = new Gson().fromJson(responseBody, new TypeToken<List<Long>>() {
+            }.getType());
+        } catch (Exception e) {
+            System.out.println("Error en la petición.");
+        }
+        return respuesta;
+    }
+
+    public String actualizarClientes(List<ClienteDTO> lista){
+        
     }
 
 
-    private String setCredentials() throws IOException {
+    private String setCredentials() {
         String username = "admin";
         String password = "admin";
         String authString = username + ":" + password;
-        return  "Basic " + Base64.getEncoder().encodeToString(authString.getBytes());
+        return "Basic " + Base64.getEncoder().encodeToString(authString.getBytes());
     }
 
-    private String getDataRequest(HttpURLConnection con){
 
-        StringBuilder response = new StringBuilder();
-        try (BufferedReader in = new BufferedReader(new InputStreamReader(con.getInputStream()))) {
-            String inputLine;
-            while ((inputLine = in.readLine()) != null) {
-                response.append(inputLine);
-            }
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-        return response.toString();
-    }
 }

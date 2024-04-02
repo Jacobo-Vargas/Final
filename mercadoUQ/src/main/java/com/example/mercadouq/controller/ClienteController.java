@@ -24,4 +24,19 @@ public class ClienteController {
         return clienteService.obtenerClientes();
     }
 
+    @PutMapping("/actualizarClientes")
+    public ResponseEntity<String> actualizarClientes(@RequestBody List<Cliente> list){
+        return clienteService.actualizarClientes(list);
+    }
+
+    @DeleteMapping("/eliminarCliente/{id}")
+    public ResponseEntity<String> eliminarById(@PathVariable long id){
+        return clienteService.eliminarById(id);
+    }
+
+    @GetMapping("/obtenerCliente/{id}")
+    public ResponseEntity<?> obtenerById(@PathVariable long id){
+        return clienteService.obtenerById(id);
+    }
+
 }

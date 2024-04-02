@@ -12,7 +12,6 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 
 import java.io.File;
-import java.io.IOException;
 import java.util.List;
 
 public class MercadoUQViewController {
@@ -62,15 +61,22 @@ public class MercadoUQViewController {
         try{
             if(archivoSeleccionado != null){
                 List<ClienteDTO> lista = MercadoUtils.loadClientesDesdeCSV(archivoSeleccionado);
-                listaClientes = FXCollections.observableArrayList(lista);
                 List<Long> noRegistrados = apiServiceCliente.registrarClientes(lista);
+                actualizarTabla();
                 if (!noRegistrados.isEmpty()){
-                    new Alert(Alert.AlertType.valueOf(noRegistrados.size() + " ya existen, no se registraron"));
+                    String mensaje = "Los siguientes clientes ya están registrados: \n";
+                    for (Long i: noRegistrados){
+                        mensaje += "-" + i.toString() + "\n";
+                    }
+
+                    MercadoUtils.alerta("Ya existen", mensaje, Alert.AlertType.WARNING);
+                } else {
+                    MercadoUtils.alerta("Éxito", "Se realizó el registro con éxito.", Alert.AlertType.CONFIRMATION);
                 }
             } else {
                 actualizarTabla();
             }
-        } catch (IOException e) {
+        } catch (Exception e) {
             throw new RuntimeException(e);
         }
     }
@@ -80,11 +86,14 @@ public class MercadoUQViewController {
        archivoSeleccionado = MercadoUtils.buscarArchivo();
     }
 
-    private void actualizarTabla() throws IOException {
-        tableClientes.setItems(listaClientes);
+    private void actualizarTabla() throws Exception {
         if(listaClientes == null || listaClientes.isEmpty()){
-           listaClientes  = FXCollections.observableArrayList(apiServiceCliente.obtenerClientes());
-           tableClientes.setItems(listaClientes);
+           try{
+               listaClientes  = FXCollections.observableArrayList(apiServiceCliente.obtenerClientes());
+               tableClientes.setItems(listaClientes);
+           }catch (NullPointerException e){
+               MercadoUtils.alerta("Atención", "No existen clientes en la base de datos", Alert.AlertType.INFORMATION);
+           }
         }
     }
 

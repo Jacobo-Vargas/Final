@@ -3,6 +3,7 @@ package com.example.mercadoapp.util;
 
 import com.example.mercadoapp.dto.ClienteDTO;
 import com.example.mercadoapp.dto.Genero;
+import javafx.scene.control.Alert;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
@@ -48,5 +49,13 @@ public class MercadoUtils {
         }
         br.close();
         return listaClientes;
+    }
+
+    public static void alerta(String title, String message, Alert.AlertType alertType){
+        Alert alert = new Alert(alertType);
+        alert.setTitle(title);
+        alert.setContentText(message);
+
+        alert.showAndWait();
     }
 }
