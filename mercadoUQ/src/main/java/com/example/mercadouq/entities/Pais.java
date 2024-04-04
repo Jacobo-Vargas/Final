@@ -1,5 +1,6 @@
 package com.example.mercadouq.entities;
 
+import com.example.mercadouq.entities.enums.TipoPais;
 import jakarta.persistence.*;
 import lombok.Data;
 
@@ -12,11 +13,12 @@ public class Pais {
     @Column(name = "IDPAIS")
     private Long id;
 
-    @Column(name = "NOMBRE", nullable = false)
+    @Column(name = "NOMBRE", nullable = false, unique = true)
     private String nombre;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "TIPOPAIS", nullable = false)
     private TipoPais tipoPais;
+
 
 }

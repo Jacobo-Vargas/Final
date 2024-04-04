@@ -1,5 +1,6 @@
 package com.example.mercadouq.entities;
 
+import com.example.mercadouq.entities.enums.Categoria;
 import jakarta.persistence.*;
 import lombok.Data;
 

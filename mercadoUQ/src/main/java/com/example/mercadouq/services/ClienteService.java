@@ -5,6 +5,7 @@ import com.example.mercadouq.repository.IClienteRepository;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,7 +16,15 @@ public class ClienteService {
     @Autowired
     IClienteRepository clienteRepository;
 
-    public ResponseEntity<List<Long>> registrarClientes(List<Cliente> list){
+    public ResponseEntity<List<Long>> registrarClientes(MultipartFile file){
+
+        List<Cliente> list = null;
+        try {
+            list = MercadoUtilService.loadClientesDesdeCSV(file);
+
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body(null);
+        }
 
         List<Long> listaNoRegistrados = new ArrayList<>();
         for (Cliente c: list) {

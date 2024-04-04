@@ -2,6 +2,7 @@ package com.example.mercadoapp.apiService;
 
 import com.example.mercadoapp.dto.ClienteDTO;
 
+import java.io.File;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -40,15 +41,23 @@ public class ApiServiceCliente {
         return respuesta;
     }
 
-    public List<Long> registrarClientes(List<ClienteDTO> lista) throws MalformedURLException {
-
+    public List<Long> registrarClientes(File file) throws MalformedURLException {
         ArrayList<Long> respuesta = new ArrayList<>();
         respuesta.ensureCapacity(500);
 
         URL url = new URL("http://localhost:8080/registrarClientes"); // url del endpoint
-        String mensaje = new Gson().toJson(lista); // mensaje que se le envía al endpoint
-        RequestBody body = RequestBody.create(mensaje, MediaType.parse("application/json")); // crea el cuerpo de la solicitud
-        Request request = new Request.Builder().url(url).post(body).build(); // crea la solicitud POST
+
+
+        RequestBody requestBody = new MultipartBody.Builder()
+                .setType(MultipartBody.FORM)
+                .addFormDataPart("file", file.getName(),
+                        RequestBody.create(file, MediaType.parse("text/csv")))
+                .build();
+
+        Request request = new Request.Builder()
+                .url(url)
+                .post(requestBody)
+                .build(); // crea la solicitud POST
 
         // ejecutar la solicitud y obtener la respuesta
         try (Response response = client.newCall(request).execute()) {

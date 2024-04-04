@@ -57,8 +57,7 @@ public class MercadoUQViewController {
     private void load() {
         try{
             if(archivoSeleccionado != null){
-                List<ClienteDTO> lista = MercadoUtils.loadClientesDesdeCSV(archivoSeleccionado);
-                List<Long> noRegistrados = apiServiceCliente.registrarClientes(lista);
+                List<Long> noRegistrados = apiServiceCliente.registrarClientes(archivoSeleccionado);
                 actualizarTabla();
                 if (!noRegistrados.isEmpty()){
                     String mensaje = "Los siguientes clientes ya están registrados: \n";

@@ -1,4 +1,4 @@
-package com.example.mercadouq.entities;
+package com.example.mercadouq.entities.enums;
 
 public enum TipoPais {
     CONFLICTO,
