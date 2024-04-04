@@ -23,7 +23,6 @@ public class Cliente {
         this.telefono = telefono;
         this.edad = edad;
         this.genero = genero;
-        this.prioridadEnvio = priorityAgeGender();
     }
 
     @Id
@@ -53,7 +52,7 @@ public class Cliente {
     @Column(name = "GENERO", nullable = false)
     private Genero genero;
 
-    @Column(name = "PRIORIDADENVIO")
+    @Column(name = "PRIORIDADENVIO", nullable = false)
     private int prioridadEnvio;
 
     private int priorityAgeGender() {

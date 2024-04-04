@@ -16,6 +16,11 @@ public class ClienteService {
     @Autowired
     IClienteRepository clienteRepository;
 
+    public ResponseEntity<Cliente> registrarCliente(Cliente cliente){
+        clienteRepository.save(cliente);
+        return ResponseEntity.ok().body(cliente);
+    }
+
     public ResponseEntity<List<Long>> registrarClientes(MultipartFile file){
 
         List<Cliente> list = null;
