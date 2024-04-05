@@ -1,6 +1,7 @@
 package com.example.mercadouq.services;
 
 import com.example.mercadouq.entities.Cliente;
+import com.example.mercadouq.entities.Pais;
 import com.example.mercadouq.repository.IClienteRepository;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -14,18 +15,31 @@ import java.util.List;
 public class ClienteService {
 
     @Autowired
-    IClienteRepository clienteRepository;
+    private IClienteRepository clienteRepository;
+
+    @Autowired
+    private MercadoUtilService mercadoUtilService;
+
+    @Autowired
+    private PaisService paisService;
 
     public ResponseEntity<Cliente> registrarCliente(Cliente cliente){
-        clienteRepository.save(cliente);
-        return ResponseEntity.ok().body(cliente);
+        Pais pais = paisService.obtenerPais(cliente.getPais().getId());
+        if(pais != null){
+            cliente.setPais(pais);
+            clienteRepository.save(cliente);
+            return ResponseEntity.ok().body(cliente);
+
+        } else {
+            return ResponseEntity.notFound().build();
+        }
     }
 
     public ResponseEntity<List<Long>> registrarClientes(MultipartFile file){
 
         List<Cliente> list = null;
         try {
-            list = MercadoUtilService.loadClientesDesdeCSV(file);
+            list = mercadoUtilService.loadClientesDesdeCSV(file);
 
         } catch (Exception e) {
             return ResponseEntity.badRequest().body(null);

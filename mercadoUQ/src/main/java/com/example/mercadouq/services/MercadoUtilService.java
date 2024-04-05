@@ -1,9 +1,10 @@
 package com.example.mercadouq.services;
 
+import com.example.mercadouq.controller.PaisController;
 import com.example.mercadouq.entities.Cliente;
 import com.example.mercadouq.entities.enums.Genero;
 import com.example.mercadouq.entities.Pais;
-import com.example.mercadouq.entities.enums.TipoPais;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -14,7 +15,10 @@ import java.util.List;
 @Service
 public class MercadoUtilService {
 
-    public static List<Cliente> loadClientesDesdeCSV(MultipartFile archivo) throws Exception {
+    @Autowired
+    private PaisController paisController;
+
+    public List<Cliente> loadClientesDesdeCSV(MultipartFile archivo) throws Exception {
 
 
         String linea;
@@ -35,18 +39,12 @@ public class MercadoUtilService {
                 String nombre = datos[1];
                 String apellido = datos[2];
                 String direccion = datos[3];
-
-                String[] paisStr = datos[4].split("-");
-                Pais pais = new Pais();
-                pais.setNombre(paisStr[0]);
-                pais.setTipoPais(TipoPais.valueOf(paisStr[1]));
-
+                Pais pais =  paisController.obtenerPais(Long.valueOf(datos[4])).getBody();
                 Long telefono = Long.valueOf(datos[5]);
                 int edad = Integer.parseInt(datos[6]);
                 Genero genero = Genero.valueOf(datos[7]);
 
                 Cliente cliente = new Cliente(cedula,nombre,apellido,direccion,pais,telefono,edad,genero);
-
                 listaClientes.add(cliente);
 
             }

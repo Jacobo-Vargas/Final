@@ -22,7 +22,7 @@
                <children>
                   <TabPane prefHeight="504.0" prefWidth="759.0" tabClosingPolicy="UNAVAILABLE">
                      <tabs>
-                        <Tab text="Cargar Empleados">
+                        <Tab text="Cargar Clientes">
                            <content>
                               <VBox prefHeight="200.0" prefWidth="100.0">
                                  <children>
