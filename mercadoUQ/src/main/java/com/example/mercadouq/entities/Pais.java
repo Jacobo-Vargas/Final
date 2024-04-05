@@ -20,5 +20,12 @@ public class Pais {
     @Column(name = "TIPOPAIS", nullable = false)
     private TipoPais tipoPais;
 
+    public Pais(Long id, String nombre, TipoPais tipoPais) {
+        this.id = id;
+        this.nombre = nombre;
+        this.tipoPais = tipoPais;
+    }
 
+    public Pais() {
+    }
 }

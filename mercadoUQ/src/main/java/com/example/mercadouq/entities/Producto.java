@@ -24,4 +24,13 @@ public class Producto {
     @Column(name = "Categoria", nullable = false)
     private Categoria categoria;
 
+    public Producto(Long id, String nombre, double precio, Categoria categoria) {
+        this.id = id;
+        this.nombre = nombre;
+        this.precio = precio;
+        this.categoria = categoria;
+    }
+
+    public Producto() {
+    }
 }

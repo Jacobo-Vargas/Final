@@ -38,21 +38,27 @@ public class ClienteService {
     public ResponseEntity<List<Long>> registrarClientes(MultipartFile file){
 
         List<Cliente> list = null;
+        List<Long> listaNoRegistrados = new ArrayList<>();
+
         try {
-            list = mercadoUtilService.loadClientesDesdeCSV(file);
+            list = mercadoUtilService.cargarClientesDesdeCSV(file);
 
         } catch (Exception e) {
             return ResponseEntity.badRequest().body(null);
         }
-
-        List<Long> listaNoRegistrados = new ArrayList<>();
-        for (Cliente c: list) {
-            if(clienteRepository.existsById(c.getCedula())){
-                listaNoRegistrados.add(c.getCedula());
-            } else {
-                clienteRepository.save(c);
+        if(list.isEmpty()){
+            return ResponseEntity.badRequest().body(null);
+        } else {
+            for (Cliente c: list) {
+                if(clienteRepository.existsById(c.getCedula())){
+                    listaNoRegistrados.add(c.getCedula());
+                } else {
+                    clienteRepository.save(c);
+                }
             }
         }
+
+
         return ResponseEntity.ok().body(listaNoRegistrados);
     }
 
