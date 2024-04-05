@@ -14,7 +14,7 @@ public class MercadoUQ extends Application {
 
     @Override
     public void start(Stage stage) throws IOException {
-        FXMLLoader fxmlLoader = new FXMLLoader(MercadoUQ.class.getResource("mercadoUQView.fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(MercadoUQ.class.getResource("principal.fxml"));
         Scene scene = new Scene(fxmlLoader.load());
         stage.setTitle("MercadoUQ");
         stage.setScene(scene);

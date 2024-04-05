@@ -50,7 +50,7 @@ public class ProductoService {
         return ResponseEntity.ok().body(existentes);
     }
 
-    public Producto obtenerProducto(Long id){
-        return productoRepository.findById(id).orElse(null);
+    public Producto obtenerProducto(String nombre){
+        return productoRepository.findByName(nombre);
     }
 }

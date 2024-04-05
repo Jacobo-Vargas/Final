@@ -62,7 +62,6 @@ public class ClienteService {
         return ResponseEntity.ok().body(listaNoRegistrados);
     }
 
-
     public ResponseEntity<List<Cliente>> obtenerClientes(){
         List<Cliente> lista = clienteRepository.findAll();
 

@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Tab?>
+<?import javafx.scene.control.TabPane?>
+<?import javafx.scene.layout.VBox?>
+
+<TabPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="525.0"
+         prefWidth="760.0" tabClosingPolicy="UNAVAILABLE" xmlns="http://javafx.com/javafx/17.0.6"
+         xmlns:fx="http://javafx.com/fxml/1">
+    <tabs>
+        <Tab text="Principal">
+            <content>
+                <VBox prefHeight="200.0" prefWidth="100.0"/>
+            </content>
+        </Tab>
+        <Tab text="Cargar datos">
+            <content>
+                <VBox alignment="TOP_CENTER" prefHeight="200.0" prefWidth="100.0">
+                    <children>
+                        <TabPane prefHeight="504.0" prefWidth="759.0" tabClosingPolicy="UNAVAILABLE">
+                            <tabs>
+                                <Tab text="Cargar Clientes">
+                                    <content>
+                                        <fx:include source="cargarClientes.fxml"/>
+                                    </content>
+                                </Tab>
+
+                                <Tab text="Cargar Facturas">
+                                    <content>
+                                        <fx:include source="cargarFactura.fxml"/>
+                                    </content>
+                                </Tab>
+
+                                <Tab text="Cargar Paises">
+                                    <content>
+                                        <fx:include source="cargarPaises.fxml"/>
+                                    </content>
+                                </Tab>
+                            </tabs>
+                        </TabPane>
+                    </children>
+                </VBox>
+            </content>
+        </Tab>
+    </tabs>
+</TabPane>

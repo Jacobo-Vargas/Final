@@ -1,20 +1,25 @@
 package com.example.mercadoapp.viewController;
 
 import com.example.mercadoapp.dto.ClienteDTO;
-import com.example.mercadoapp.apiService.ApiServiceCliente;
+import com.example.mercadoapp.apiService.ApiClienteService;
 import com.example.mercadoapp.util.MercadoUtils;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
+import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 
 import java.io.File;
 import java.util.List;
 
-public class MercadoUQViewController {
+public class CargarClienteViewController {
+
+
+    @FXML
+    private Label lblNombreArchivo;
 
     @FXML
     private TableView<ClienteDTO> tableClientes;
@@ -44,11 +49,10 @@ public class MercadoUQViewController {
 
     private File archivoSeleccionado;
 
-    private ApiServiceCliente apiServiceCliente;
+    private ApiClienteService apiClienteService;
 
     public void initialize(){
-        tableClientes.setItems(listaClientes);
-        this.apiServiceCliente = new ApiServiceCliente();
+        this.apiClienteService = new ApiClienteService();
         initDataBinding();
     }
 
@@ -57,7 +61,7 @@ public class MercadoUQViewController {
     private void load() {
         try{
             if(archivoSeleccionado != null){
-                List<Long> noRegistrados = apiServiceCliente.registrarClientes(archivoSeleccionado);
+                List<Long> noRegistrados = apiClienteService.registrarClientes(archivoSeleccionado);
                 actualizarTabla();
                 if (!noRegistrados.isEmpty()){
                     String mensaje = "Los siguientes clientes ya están registrados: \n";
@@ -79,22 +83,22 @@ public class MercadoUQViewController {
 
     @FXML
     private void selectFile() {
-       archivoSeleccionado = MercadoUtils.buscarArchivo();
+        archivoSeleccionado = MercadoUtils.buscarArchivo();
+        lblNombreArchivo.setText(archivoSeleccionado.getName());
     }
 
     private void actualizarTabla() throws Exception {
         if(listaClientes == null || listaClientes.isEmpty()){
-           try{
-               listaClientes  = FXCollections.observableArrayList(apiServiceCliente.obtenerClientes());
-               tableClientes.setItems(listaClientes);
-           }catch (NullPointerException e){
-               MercadoUtils.alerta("Atención", "No existen clientes en la base de datos", Alert.AlertType.INFORMATION);
-           }
+            try{
+                listaClientes  = FXCollections.observableArrayList(apiClienteService.obtenerClientes());
+                tableClientes.setItems(listaClientes);
+            }catch (NullPointerException e){
+                MercadoUtils.alerta("Atención", "No existen clientes en la base de datos", Alert.AlertType.INFORMATION);
+            }
         }
     }
 
     private void initDataBinding() {
-
         tcCedula.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getCedula().toString()));
         tcApellido.setCellValueFactory(cellData -> new SimpleStringProperty(String.valueOf(cellData.getValue().getApellido())));
         tcNombre.setCellValueFactory(cellData -> new SimpleStringProperty(String.valueOf(cellData.getValue().getNombre())));

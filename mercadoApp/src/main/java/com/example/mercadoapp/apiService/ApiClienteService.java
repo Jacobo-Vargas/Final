@@ -14,11 +14,11 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import okhttp3.*;
 
-public class ApiServiceCliente {
+public class ApiClienteService {
 
     private final OkHttpClient client;
 
-    public ApiServiceCliente() {
+    public ApiClienteService() {
         this.client = new OkHttpClient();
     }
 
