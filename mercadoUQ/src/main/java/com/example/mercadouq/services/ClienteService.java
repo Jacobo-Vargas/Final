@@ -23,12 +23,17 @@ public class ClienteService {
     @Autowired
     private PaisService paisService;
 
-    public ResponseEntity<Cliente> registrarCliente(Cliente cliente){
+    public ResponseEntity<?> registrarCliente(Cliente cliente){
         Pais pais = paisService.obtenerPais(cliente.getPais().getId());
         if(pais != null){
             cliente.setPais(pais);
-            clienteRepository.save(cliente);
-            return ResponseEntity.ok().body(cliente);
+            if(!clienteRepository.existsById(cliente.getCedula())){
+                clienteRepository.save(cliente);
+                return ResponseEntity.ok().body(cliente);
+            } else {
+                return ResponseEntity.badRequest().body("Cliente ya existe.");
+            }
+
 
         } else {
             return ResponseEntity.notFound().build();
