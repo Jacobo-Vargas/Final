@@ -1,5 +1,6 @@
 package com.example.mercadoapp.apiService;
 
+import com.example.mercadoapp.dto.ClienteDTO;
 import com.example.mercadoapp.dto.PaisDTO;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
