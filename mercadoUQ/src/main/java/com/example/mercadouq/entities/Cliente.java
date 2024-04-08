@@ -10,21 +10,6 @@ import lombok.Data;
 @Table(name = "CLIENTES")
 public class Cliente {
 
-    public Cliente() {
-
-    }
-
-    public Cliente(Long cedula, String nombre, String apellido, String direccion, Pais pais, Long telefono, int edad, Genero genero) {
-        this.cedula = cedula;
-        this.nombre = nombre;
-        this.apellido = apellido;
-        this.direccion = direccion;
-        this.pais = pais;
-        this.telefono = telefono;
-        this.edad = edad;
-        this.genero = genero;
-    }
-
     @Id
     @Column(name = "IDCLIENTE")
     private Long cedula;
@@ -54,6 +39,22 @@ public class Cliente {
 
     @Column(name = "PRIORIDADENVIO", nullable = false)
     private int prioridadEnvio;
+
+
+    public Cliente() {
+
+    }
+
+    public Cliente(Long cedula, String nombre, String apellido, String direccion, Pais pais, Long telefono, int edad, Genero genero) {
+        this.cedula = cedula;
+        this.nombre = nombre;
+        this.apellido = apellido;
+        this.direccion = direccion;
+        this.pais = pais;
+        this.telefono = telefono;
+        this.edad = edad;
+        this.genero = genero;
+    }
 
     private int priorityAgeGender() {
 
