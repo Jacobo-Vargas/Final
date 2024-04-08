@@ -1,9 +1,11 @@
 package com.example.mercadouq.services;
 
 import com.example.mercadouq.entities.Premio;
+import org.springframework.stereotype.Service;
 
 import java.util.Comparator;
 
+@Service
 public class OrdenadorPremiosService implements Comparator<Premio> {
 
     @Override

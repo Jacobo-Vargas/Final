@@ -26,4 +26,14 @@ public class Factura {
     @OneToMany(mappedBy = "factura", cascade = CascadeType.ALL)
     private List<DetalleFactura> detalles;
 
+    public Factura(Long id, Date fecha, Cliente cliente, List<DetalleFactura> detalles) {
+        this.id = id;
+        this.fecha = fecha;
+        this.cliente = cliente;
+        this.detalles = detalles;
+    }
+
+    public Factura() {
+
+    }
 }

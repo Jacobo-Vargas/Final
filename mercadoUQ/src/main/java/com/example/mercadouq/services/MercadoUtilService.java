@@ -1,25 +1,37 @@
 package com.example.mercadouq.services;
 
+import com.example.mercadouq.controller.ClienteController;
+import com.example.mercadouq.controller.DetalleFacturaController;
 import com.example.mercadouq.controller.PaisController;
-import com.example.mercadouq.entities.Cliente;
-import com.example.mercadouq.entities.Producto;
+import com.example.mercadouq.entities.*;
 import com.example.mercadouq.entities.enums.Categoria;
 import com.example.mercadouq.entities.enums.Genero;
-import com.example.mercadouq.entities.Pais;
 import com.example.mercadouq.entities.enums.TipoPais;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.*;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import java.util.logging.SimpleFormatter;
 
 @Service
 public class MercadoUtilService {
 
     @Autowired
     private PaisController paisController;
+
+    @Autowired
+    private ClienteController clienteController;
+
+    @Autowired
+    private DetalleFacturaController detalleFacturaController;
 
     public List<Cliente> cargarClientesDesdeCSV(MultipartFile file) {
         List<Cliente> listaClientes = new ArrayList<>();
@@ -48,7 +60,7 @@ public class MercadoUtilService {
         return listaClientes;
     }
 
-    public List<Pais> cargarPaisesDesdeCSV(MultipartFile file) throws Exception{
+    public List<Pais> cargarPaisesDesdeCSV(MultipartFile file){
         List<Pais> listaPaises = new ArrayList<>();
         String linea;
         if(file.isEmpty()){
@@ -69,7 +81,7 @@ public class MercadoUtilService {
         return listaPaises;
     }
 
-    public List<Producto> cargarProductosDesdeCSV(MultipartFile file) throws Exception{
+    public List<Producto> cargarProductosDesdeCSV(MultipartFile file){
         List<Producto> listaProductos = new ArrayList<>();
         String linea;
         if(file.isEmpty()){
@@ -90,5 +102,28 @@ public class MercadoUtilService {
         } catch (IOException e) {
         }
         return listaProductos;
+    }
+
+    public List<Factura> cargarFacturasDesdeCSV(MultipartFile file){
+        List<Factura> listaFacturas = new ArrayList<>();
+        String linea;
+        if(file.isEmpty()){
+            return null;
+        }
+        try(BufferedReader br = new BufferedReader(new InputStreamReader(file.getInputStream()))){
+            while((linea = br.readLine()) != null){
+                String[] datos = linea.split(",");
+
+                Long id = Long.valueOf(datos[0]);
+                Date fecha = new SimpleDateFormat("dd-MM-yyyy").parse(datos[1]);
+                Cliente cliente = (Cliente)  clienteController.obtenerById(Long.parseLong(datos[2])).getBody();
+                List<DetalleFactura> listaDetalles = (List<DetalleFactura>) detalleFacturaController.findFacturasById(id).getBody();
+
+                Factura factura = new Factura(id,fecha,cliente,listaDetalles);
+                listaFacturas.add(factura);
+            }
+        } catch (Exception e) {
+        }
+        return listaFacturas;
     }
 }
