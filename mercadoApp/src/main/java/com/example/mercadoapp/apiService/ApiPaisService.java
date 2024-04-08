@@ -66,8 +66,11 @@ public class ApiPaisService {
                 return respuesta;
             }
             String responseBody = response.body().string();
-            respuesta = new Gson().fromJson(responseBody, new TypeToken<List<String>>() {
-            }.getType());
+            if(!responseBody.isEmpty()){
+                respuesta = new Gson().fromJson(responseBody, new TypeToken<List<String>>() {
+                }.getType());
+            }
+
         } catch (Exception e) {
             System.out.println("Error en la petición.");
         }

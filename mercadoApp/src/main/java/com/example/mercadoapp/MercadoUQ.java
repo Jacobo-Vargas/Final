@@ -21,7 +21,7 @@ public class MercadoUQ extends Application {
       //  stage.initStyle(StageStyle.TRANSPARENT);
         stage.setResizable(false);
       //  Image icon = new Image(Objects.requireNonNull(getClass().getResourceAsStream("/images/image-removebg-preview.png")));
-     //   stage.getIcons().add(icon);
+     //   stage.getIcons().add(icon);+
         stage.show();
     }
 }

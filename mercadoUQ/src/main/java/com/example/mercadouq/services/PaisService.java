@@ -23,6 +23,9 @@ public class PaisService {
         return paisRepository.findById(id).orElse(null);
     }
 
+    public ResponseEntity<List<Pais>> obtenerPaises(){
+        return ResponseEntity.ok().body(paisRepository.findAll());
+    }
     public ResponseEntity<List<String>> registrarPaises(MultipartFile file){
         List<Pais> list = null;
         try {
