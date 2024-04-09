@@ -163,6 +163,7 @@ public class MercadoUtilService {
     }
 
     public void actualizarValorTotalFacturas(Long id){
-
+// llamo obtenerFactura
+        // si tiene Detalles extraigo precio y envio el nuevo precio
     }
 }

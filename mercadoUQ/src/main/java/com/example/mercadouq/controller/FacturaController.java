@@ -23,7 +23,7 @@ public class FacturaController {
     }
 
     @PutMapping("/actualizarFactura")
-    public Factura actualizarFacturaById(@RequestBody Long id){
-        return facturaService.actualizarFacturaById(id);
+    public void actualizarPrecioById(@RequestBody Double precio){
+        return facturaService.actualizarPrecioById(precio);
     }
 }
