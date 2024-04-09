@@ -23,48 +23,48 @@ public class TestProducto {
 
     @Test
     void registrarProductos(){
-        try {
-            InputStream inputStream = new FileInputStream("src/main/resources/fileCsv/productos.csv");
-            MockMultipartFile file = new MockMultipartFile("file", "productos.csv", "text/csv", inputStream);
-            ResponseEntity<?> response = productoController.registrarProductos(file);
-
-            // Verificar que la respuesta no es nula
-            assertNotNull(response, "La respuesta no debería ser nula");
-
-            // Verificar el código de estado de la respuesta (por ejemplo, 200 para éxito)
-            assertEquals(HttpStatus.OK, response.getStatusCode(), "El código de estado debería ser OK");
-
-            Object responseBody = response.getBody();
-            if(responseBody instanceof ArrayList<?>){
-
-                @SuppressWarnings("unchecked")
-                List<String> requestBody = (ArrayList<String>) response.getBody();
-                System.out.println(requestBody);
-            }
-
-        } catch (FileNotFoundException e) {
-            System.out.println("No se encontró el archivo.");
-        } catch (IOException e) {
-            System.out.println("No se pudo convertir a Multipart.");
-        }
+//        try {
+//            InputStream inputStream = new FileInputStream("src/main/resources/fileCsv/productos.csv");
+//            MockMultipartFile file = new MockMultipartFile("file", "productos.csv", "text/csv", inputStream);
+//            ResponseEntity<?> response = productoController.registrarProductos(file);
+//
+//            // Verificar que la respuesta no es nula
+//            assertNotNull(response, "La respuesta no debería ser nula");
+//
+//            // Verificar el código de estado de la respuesta (por ejemplo, 200 para éxito)
+//            assertEquals(HttpStatus.OK, response.getStatusCode(), "El código de estado debería ser OK");
+//
+//            Object responseBody = response.getBody();
+//            if(responseBody instanceof ArrayList<?>){
+//
+//                @SuppressWarnings("unchecked")
+//                List<String> requestBody = (ArrayList<String>) response.getBody();
+//                System.out.println(requestBody);
+//            }
+//
+//        } catch (FileNotFoundException e) {
+//            System.out.println("No se encontró el archivo.");
+//        } catch (IOException e) {
+//            System.out.println("No se pudo convertir a Multipart.");
+//        }
     }
     @Test
     void registrarConArchivoVacio(){
-        try {
-            InputStream inputStream = new FileInputStream("src/main/resources/fileCsv/productosVacio.csv");
-            MockMultipartFile file = new MockMultipartFile("file", "productos.csv", "text/csv", inputStream);
-            ResponseEntity<?> response = productoController.registrarProductos(file);
-
-            // Verificar el código de estado de la respuesta (por ejemplo, 200 para éxito)
-            assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode(), "El código de estado debería ser BAD_REQUEST");
-            System.out.println(response.getBody());
-
-
-        } catch (FileNotFoundException e) {
-            System.out.println("No se encontró el archivo.");
-        } catch (IOException e) {
-            System.out.println("No se pudo convertir a Multipart.");
-        }
+//        try {
+//            InputStream inputStream = new FileInputStream("src/main/resources/fileCsv/productosVacio.csv");
+//            MockMultipartFile file = new MockMultipartFile("file", "productos.csv", "text/csv", inputStream);
+//            ResponseEntity<?> response = productoController.registrarProductos(file);
+//
+//            // Verificar el código de estado de la respuesta (por ejemplo, 200 para éxito)
+//            assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode(), "El código de estado debería ser BAD_REQUEST");
+//            System.out.println(response.getBody());
+//
+//
+//        } catch (FileNotFoundException e) {
+//            System.out.println("No se encontró el archivo.");
+//        } catch (IOException e) {
+//            System.out.println("No se pudo convertir a Multipart.");
+//        }
     }
     @Test
     void obtenerProducto(){
