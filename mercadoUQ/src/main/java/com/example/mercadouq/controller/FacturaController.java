@@ -24,6 +24,6 @@ public class FacturaController {
 
     @PutMapping("/actualizarFactura")
     public Factura actualizarFacturaById(@RequestBody Long id){
-        return facturaService.
+        return facturaService.actualizarFacturaById(id);
     }
 }

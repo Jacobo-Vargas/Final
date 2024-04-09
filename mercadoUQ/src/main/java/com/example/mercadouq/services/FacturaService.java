@@ -11,6 +11,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class FacturaService {
@@ -49,5 +50,11 @@ public class FacturaService {
 
     public Factura obtenerFacturaById(Long id) {
         return facturaRepository.findById(id).orElse(null);
+    }
+
+    public Factura actualizarFacturaById(Long id) {
+        Optional<Factura> factura = facturaRepository.findById(id);
+        facturaRepository.deleteById(id);
+        return null;
     }
 }
