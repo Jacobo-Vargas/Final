@@ -26,8 +26,7 @@ public class Factura {
     @OneToMany(mappedBy = "factura", cascade = CascadeType.ALL)
     private List<DetalleFactura> detalles;
 
-    @Column(name = "TOTAL", nullable = false)
-    private double totalFactura;
+
 
     public Factura(Long id, Date fecha, Cliente cliente, List<DetalleFactura> detalles) {
         this.id = id;
@@ -36,8 +35,8 @@ public class Factura {
         this.detalles = detalles;
     }
 
-    private double calcularTotal(List<DetalleFactura> detalles) {
-        if(detalles != null){
+    private double calcularTotalFactura() {
+        if(this.detalles != null){
             return detalles.stream().mapToDouble(DetalleFactura::getTotal).sum();
         } else {
             return 0;
@@ -46,11 +45,5 @@ public class Factura {
 
     public Factura() {
 
-    }
-
-    @PrePersist
-    @PreUpdate
-    public void actualizarTotalFactura() {
-        this.totalFactura = calcularTotal(this.detalles);
     }
 }
