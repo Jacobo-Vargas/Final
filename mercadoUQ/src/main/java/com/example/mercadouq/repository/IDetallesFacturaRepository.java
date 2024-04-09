@@ -10,6 +10,6 @@ import java.util.List;
 @Repository
 public interface IDetallesFacturaRepository extends JpaRepository<DetalleFactura, Long> {
 
-    @Query("SELECT e FROM DetalleFactura e WHERE e.factura = :id")
+    @Query("SELECT e FROM DetalleFactura e WHERE e.factura.id = :id")
     List<DetalleFactura> findFacturasById(Long id);
 }

@@ -1,8 +1,10 @@
 package com.example.mercadouq.controller;
 
+import com.example.mercadouq.entities.Factura;
 import com.example.mercadouq.services.FacturaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -16,5 +18,10 @@ public class FacturaController {
     @PostMapping("/registrarFacturas")
     public ResponseEntity<?> registrarFacturas(@RequestBody MultipartFile file){
         return facturaService.registrarFacturas(file);
+    }
+
+    @GetMapping("/obtenerFacturaByid")
+    public Factura obtenerFacturaById(@RequestBody Long id){
+        return facturaService.obtenerFacturaById(id);
     }
 }

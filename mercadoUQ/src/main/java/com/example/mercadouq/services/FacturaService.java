@@ -46,4 +46,8 @@ public class FacturaService {
             return ResponseEntity.ok().body("Se registraron exitosamente");
         }
     }
+
+    public Factura obtenerFacturaById(Long id) {
+        return facturaRepository.findById(id).orElse(null);
+    }
 }

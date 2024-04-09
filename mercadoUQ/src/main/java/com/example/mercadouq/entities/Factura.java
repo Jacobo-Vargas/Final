@@ -37,14 +37,20 @@ public class Factura {
     }
 
     private double calcularTotal(List<DetalleFactura> detalles) {
-      return detalles.stream().mapToDouble(DetalleFactura::getTotal).sum();
+        if(detalles != null){
+            return detalles.stream().mapToDouble(DetalleFactura::getTotal).sum();
+        } else {
+            return 0;
+        }
     }
 
     public Factura() {
 
     }
+
     @PrePersist
-    public void beforePersist() {
+    @PreUpdate
+    public void actualizarTotalFactura() {
         this.totalFactura = calcularTotal(this.detalles);
     }
 }

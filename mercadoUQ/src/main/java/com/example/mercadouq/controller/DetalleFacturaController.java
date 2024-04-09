@@ -1,10 +1,13 @@
 package com.example.mercadouq.controller;
 
+import com.example.mercadouq.entities.DetalleFactura;
 import com.example.mercadouq.services.DetalleFacturaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+
+import java.util.List;
 
 @RestController
 public class DetalleFacturaController {
@@ -13,7 +16,7 @@ public class DetalleFacturaController {
     DetalleFacturaService detalleFacturaService;
 
     @GetMapping("/findFacturasByid")
-    public ResponseEntity<?> findFacturasById(@RequestBody Long id){
+    public List<DetalleFactura> findFacturasById(@RequestBody Long id){
         return detalleFacturaService.findDetallesFacturasById(id);
     }
 

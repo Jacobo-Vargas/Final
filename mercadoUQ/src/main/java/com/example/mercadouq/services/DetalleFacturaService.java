@@ -21,13 +21,14 @@ public class DetalleFacturaService {
     @Autowired
     MercadoUtilService mercadoUtilService;
 
-    public ResponseEntity<?> findDetallesFacturasById(Long id){
-        return ResponseEntity.ok().body(detallesFacturaRepository.findFacturasById(id));
+    public List<DetalleFactura> findDetallesFacturasById(Long id){
+        return detallesFacturaRepository.findFacturasById(id);
     }
 
     public ResponseEntity<?> registrarDetallesFacturas(MultipartFile file) {
-        List<DetalleFactura> lista = null;
+        List<DetalleFactura> lista = new ArrayList<>();
         List<Long> repetidos = new ArrayList<>();
+
         try{
             lista = mercadoUtilService.cargarDetallesFacturaDesdeCsv(file);
         } catch (IOException e) {
@@ -45,6 +46,5 @@ public class DetalleFacturaService {
             }
         }
         return ResponseEntity.ok().body(repetidos);
-
     }
 }

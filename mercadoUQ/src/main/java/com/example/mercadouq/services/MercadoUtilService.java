@@ -1,9 +1,6 @@
 package com.example.mercadouq.services;
 
-import com.example.mercadouq.controller.ClienteController;
-import com.example.mercadouq.controller.DetalleFacturaController;
-import com.example.mercadouq.controller.PaisController;
-import com.example.mercadouq.controller.ProductoController;
+import com.example.mercadouq.controller.*;
 import com.example.mercadouq.entities.*;
 import com.example.mercadouq.entities.enums.Categoria;
 import com.example.mercadouq.entities.enums.Genero;
@@ -13,7 +10,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.BufferedReader;
-import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.text.SimpleDateFormat;
@@ -36,6 +32,9 @@ public class MercadoUtilService {
 
     @Autowired
     private ProductoController productoController;
+
+    @Autowired
+    private FacturaController facturaController;
 
     public List<Cliente> cargarClientesDesdeCSV(MultipartFile file) {
         List<Cliente> listaClientes = new ArrayList<>();
@@ -122,10 +121,17 @@ public class MercadoUtilService {
                 Date fecha = new SimpleDateFormat("yyyy-MM-dd").parse(datos[1]);
                 Cliente cliente = (Cliente)  clienteController.obtenerById(Long.parseLong(datos[2])).getBody();
 
-                List<DetalleFactura> listaDetalles = (List<DetalleFactura>) detalleFacturaController.findFacturasById(id).getBody();
+                List<DetalleFactura> listaDetalles = detalleFacturaController.findFacturasById(id);
 
-                Factura factura = new Factura(id,fecha,cliente,listaDetalles);
-                listaFacturas.add(factura);
+
+                if(listaDetalles != null && !listaDetalles.isEmpty()){
+                    Factura factura = new Factura(id,fecha,cliente,listaDetalles);
+                    listaFacturas.add(factura);
+                } else {
+                    Factura factura = new Factura(id,fecha,cliente,new ArrayList<>());
+                    listaFacturas.add(factura);
+                }
+
             }
         } catch (Exception ignored) {
         }
@@ -136,19 +142,21 @@ public class MercadoUtilService {
         List<DetalleFactura> lista = new ArrayList<>();
         String linea ;
         if(file.isEmpty()){
-            return null;
+            return lista;
         }
         try(BufferedReader br = new BufferedReader(new InputStreamReader(file.getInputStream()))){
             while ((linea = br.readLine()) != null){
                 String[] datos = linea.split(",");
 
                 Long id = Long.valueOf(datos[0]);
-                Long idFactura = Long.valueOf(datos[1]);
+                Factura factura = facturaController.obtenerFacturaById(Long.valueOf(datos[1]));
                 Producto p = (Producto) productoController.obtenerProductoById(Long.valueOf(datos[2])).getBody();
                 int cantidad = Integer.parseInt(datos[3]);
 
-                DetalleFactura detalle = new DetalleFactura(id, idFactura, p, cantidad );
-                lista.add(detalle);
+                if(factura != null){
+                    DetalleFactura detalle = new DetalleFactura(id, factura, p, cantidad );
+                    lista.add(detalle);
+                }
             }
         }
         return lista;
