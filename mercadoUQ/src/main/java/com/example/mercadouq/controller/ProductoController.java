@@ -14,22 +14,23 @@ public class ProductoController {
     private ProductoService productoService;
 
     @GetMapping("/obtenerProducto/{nombre}")
-    public ResponseEntity<Producto> obtenerProducto(@PathVariable String nombre){
-        return ResponseEntity.ok().body(productoService.obtenerProducto(nombre));
+    public ResponseEntity<?> obtenerProducto(@PathVariable String nombre){
+        return  productoService.obtenerProducto(nombre);
     }
 
     @PostMapping("/registrarProductos")
     public ResponseEntity<?> registrarProductos(@RequestBody MultipartFile file){
-        if(file.isEmpty()){
-            return ResponseEntity.badRequest().body("El archivo esta vacío.");
-        } else {
-            return ResponseEntity.ok().body(productoService.registrarProductos(file));
-        }
+        return productoService.registrarProductos(file);
     }
 
     @PostMapping("/registrarProducto")
     public ResponseEntity<?> registrarProducto(@RequestBody Producto producto){
         return productoService.registrarProducto(producto);
+    }
+
+    @GetMapping("/obtenerProductoByid")
+    public ResponseEntity<?> obtenerProductoById(@RequestBody Long id){
+        return productoService.obtenerProductoById(id);
     }
 
 }

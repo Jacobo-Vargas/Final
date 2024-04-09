@@ -13,9 +13,8 @@ public class DetalleFactura {
     @Column(name = "IDDETALLEFACTURA")
     private Long id;
 
-    @ManyToOne
-    @JoinColumn(name = "IDFACTURA", nullable = false)
-    private Factura factura;
+    @Column(name = "IDFACTURA", nullable = false)
+    private Long factura;
 
     @ManyToOne
     @JoinColumn(name = "IDPRODUCTO", nullable = false)
@@ -30,11 +29,11 @@ public class DetalleFactura {
     @Column(name = "TOTAL", nullable = false)
     private double total;
 
-    public DetalleFactura(Long id, Factura factura, Producto producto, double valorUnitario, int cantidad) {
+    public DetalleFactura(Long id, Long factura, Producto producto, int cantidad) {
         this.id = id;
         this.factura = factura;
         this.producto = producto;
-        this.valorUnitario = valorUnitario;
+        this.valorUnitario = producto.getPrecio();
         this.cantidad = cantidad;
     }
 
@@ -44,6 +43,6 @@ public class DetalleFactura {
 
     @PrePersist
     public void beforePersist() {
-        this.total = this.cantidad * this.valorUnitario;
+        this.total = this.producto.getPrecio() * this.cantidad;
     }
 }

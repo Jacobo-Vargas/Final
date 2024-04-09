@@ -3,25 +3,26 @@ package com.example.mercadouq.services;
 import com.example.mercadouq.controller.ClienteController;
 import com.example.mercadouq.controller.DetalleFacturaController;
 import com.example.mercadouq.controller.PaisController;
+import com.example.mercadouq.controller.ProductoController;
 import com.example.mercadouq.entities.*;
 import com.example.mercadouq.entities.enums.Categoria;
 import com.example.mercadouq.entities.enums.Genero;
 import com.example.mercadouq.entities.enums.TipoPais;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.*;
-import java.text.DateFormat;
-import java.text.ParseException;
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.logging.SimpleFormatter;
 
 @Service
+@SuppressWarnings("unchecked")
 public class MercadoUtilService {
 
     @Autowired
@@ -32,6 +33,9 @@ public class MercadoUtilService {
 
     @Autowired
     private DetalleFacturaController detalleFacturaController;
+
+    @Autowired
+    private ProductoController productoController;
 
     public List<Cliente> cargarClientesDesdeCSV(MultipartFile file) {
         List<Cliente> listaClientes = new ArrayList<>();
@@ -55,7 +59,7 @@ public class MercadoUtilService {
                 Cliente cliente = new Cliente(cedula,nombre,apellido,direccion,pais,telefono,edad,genero);
                 listaClientes.add(cliente);
             }
-        } catch (IOException e) {
+        } catch (IOException ignored) {
         }
         return listaClientes;
     }
@@ -76,7 +80,7 @@ public class MercadoUtilService {
 
                listaPaises.add(new Pais(id, nombre, tipoPais));
             }
-        } catch (IOException e) {
+        } catch (IOException ignored) {
         }
         return listaPaises;
     }
@@ -99,7 +103,7 @@ public class MercadoUtilService {
                 listaProductos.add(new Producto(id, nombre, precio, categoria));
 
             }
-        } catch (IOException e) {
+        } catch (IOException ignored) {
         }
         return listaProductos;
     }
@@ -115,15 +119,38 @@ public class MercadoUtilService {
                 String[] datos = linea.split(",");
 
                 Long id = Long.valueOf(datos[0]);
-                Date fecha = new SimpleDateFormat("dd-MM-yyyy").parse(datos[1]);
+                Date fecha = new SimpleDateFormat("yyyy-MM-dd").parse(datos[1]);
                 Cliente cliente = (Cliente)  clienteController.obtenerById(Long.parseLong(datos[2])).getBody();
+
                 List<DetalleFactura> listaDetalles = (List<DetalleFactura>) detalleFacturaController.findFacturasById(id).getBody();
 
                 Factura factura = new Factura(id,fecha,cliente,listaDetalles);
                 listaFacturas.add(factura);
             }
-        } catch (Exception e) {
+        } catch (Exception ignored) {
         }
         return listaFacturas;
+    }
+
+    public List<DetalleFactura> cargarDetallesFacturaDesdeCsv(MultipartFile file) throws IOException {
+        List<DetalleFactura> lista = new ArrayList<>();
+        String linea ;
+        if(file.isEmpty()){
+            return null;
+        }
+        try(BufferedReader br = new BufferedReader(new InputStreamReader(file.getInputStream()))){
+            while ((linea = br.readLine()) != null){
+                String[] datos = linea.split(",");
+
+                Long id = Long.valueOf(datos[0]);
+                Long idFactura = Long.valueOf(datos[1]);
+                Producto p = (Producto) productoController.obtenerProductoById(Long.valueOf(datos[2])).getBody();
+                int cantidad = Integer.parseInt(datos[3]);
+
+                DetalleFactura detalle = new DetalleFactura(id, idFactura, p, cantidad );
+                lista.add(detalle);
+            }
+        }
+        return lista;
     }
 }

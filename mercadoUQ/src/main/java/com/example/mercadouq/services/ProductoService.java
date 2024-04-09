@@ -50,7 +50,11 @@ public class ProductoService {
         return ResponseEntity.ok().body(existentes);
     }
 
-    public Producto obtenerProducto(String nombre){
-        return productoRepository.findByName(nombre);
+    public ResponseEntity<?> obtenerProducto(String nombre){
+        return productoRepository.findByName(nombre) != null ? ResponseEntity.ok().body(productoRepository.findByName(nombre)): ResponseEntity.badRequest().body("No existe el producto.");
+    }
+
+    public ResponseEntity<?> obtenerProductoById(Long id){
+        return ResponseEntity.ok().body(productoRepository.findById(id).orElse(null));
     }
 }
