@@ -161,4 +161,8 @@ public class MercadoUtilService {
         }
         return lista;
     }
+
+    public void actualizarValorTotalFacturas(Long id){
+
+    }
 }
