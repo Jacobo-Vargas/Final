@@ -3,6 +3,7 @@ package com.example.mercadouq.services;
 import com.example.mercadouq.controller.*;
 import com.example.mercadouq.entities.*;
 import com.example.mercadouq.entities.enums.Categoria;
+import com.example.mercadouq.entities.enums.Estado;
 import com.example.mercadouq.entities.enums.Genero;
 import com.example.mercadouq.entities.enums.TipoPais;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,6 +34,9 @@ public class MercadoUtilService {
 
     @Autowired
     private FacturaController facturaController;
+
+    @Autowired
+    private PremioController premioController;
 
     public List<Cliente> cargarClientesDesdeCSV(MultipartFile file) {
         List<Cliente> listaClientes = new ArrayList<>();
@@ -166,58 +170,66 @@ public class MercadoUtilService {
         facturaController.actualizarPrecioFacturaById(factura);
     }
 
-    public void actualizarValorTotalFacturas(){
+    public void actualizarValorTotalFacturas() {
         List<Factura> facturas = facturaController.obtenerFacturas();
 
-        for (Factura factura: facturas){
+        for (Factura factura : facturas) {
             List<DetalleFactura> detalles = detalleFacturaController.findDetallesFacturasByIdFactura(factura.getId());
-           actualizarValorFacturaIndividual(detalles, factura);
+            actualizarValorFacturaIndividual(detalles, factura);
         }
-
-
-
     }
 
-    public void escogerPremiados(){
+    /**
+     * Se llama desde un endpoint se escogen premiados, se asigna premio y cuando están se encolan
+     */
+    public void escogerPremiados() {
         List<Factura> listaDeFacturas = facturaController.getFactOrderByClient();
-        for(Factura factura: listaDeFacturas){
-            if(cumpleCondiciones(factura)){
+        for (Factura factura : listaDeFacturas) {
+            if (cumpleCondiciones(factura)) {
                 Premio premio = new Premio(factura, escogerObsequio(factura.getId()));
-
+                premio.setEstado(Estado.ESPERA);
+                premioController.registrarPremio(premio);
             }
         }
-
+        encolarPremios();
     }
 
-    public String escogerObsequio(Long idFactura){
+    private Obsequio escogerObsequio(Long idFactura) {
         List<DetalleFactura> listaDetalles = detalleFacturaController.findDetallesFacturasByIdFactura(idFactura);
+
         return null;
     }
 
-    public boolean cumpleCondiciones(Factura factura){
+    private boolean cumpleCondiciones(Factura factura) {
         boolean fechaValida = comprobarFecha(factura.getFecha());
         boolean precioMayor = factura.getTotal() > 1000000;
         boolean categoria = comprobarCategoria(factura.getId());
         return fechaValida && precioMayor && categoria;
     }
 
-    public boolean comprobarFecha(Date date){
+    private boolean comprobarFecha(Date date) {
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(date);
         int diaSemana = calendar.get(Calendar.DAY_OF_WEEK);
         return diaSemana != Calendar.WEDNESDAY && diaSemana != Calendar.MONDAY;
     }
 
-    public boolean comprobarCategoria(Long idFactura){
+    private boolean comprobarCategoria(Long idFactura) {
         List<DetalleFactura> lista = detalleFacturaController.findDetallesFacturasByIdFactura(idFactura);
-        for(DetalleFactura detalle: lista){
-            if(detalle.getProducto().getCategoria().equals(Categoria.ALIMENTOS)){
+        for (DetalleFactura detalle : lista) {
+            if (detalle.getProducto().getCategoria().equals(Categoria.ALIMENTOS)) {
                 return false;
             }
         }
         return true;
     }
 
+    /**
+     * Este método debería devolver un informe con los datos del orden de despacho o al final cuando se carguen al avión
+     * cambiar estado de premio a ENCOLADO y posteriormente a ENVIADO cuando se despache
+     */
+    private void encolarPremios() {
 
+    }
 
 }

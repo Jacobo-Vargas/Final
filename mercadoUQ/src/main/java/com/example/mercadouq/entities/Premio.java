@@ -1,6 +1,8 @@
 package com.example.mercadouq.entities;
 
 import com.example.mercadouq.entities.enums.Categoria;
+import com.example.mercadouq.entities.enums.Estado;
+import com.example.mercadouq.entities.enums.Genero;
 import jakarta.persistence.*;
 import lombok.Data;
 
@@ -20,12 +22,16 @@ public class Premio {
     @Column(name = "NOMBRECLIENTE")
     private String nombreCliente;
 
-    @Column(name = "PRODUCTODEPREMIO", nullable = false)
-    private String premio;
+    @Column(name = "OBSEQUIO", nullable = false)
+    private Obsequio obsequio;
 
-    public Premio(Factura factura, String premio) {
+    @Enumerated(EnumType.STRING)
+    @Column(name = "ESTADO", nullable = false)
+    private Estado estado;
+
+    public Premio(Factura factura, Obsequio obsequio) {
         this.factura = factura;
-        this.premio = premio;
+        this.obsequio = obsequio;
         this.nombreCliente = factura.getCliente().getNombre() + factura.getCliente().getApellido();
     }
 
