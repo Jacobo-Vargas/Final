@@ -25,12 +25,17 @@ public class FacturaController {
     }
 
    @PutMapping("/actualizarFactura")
-    public ResponseEntity<Factura> actualizarPrecioById(@RequestBody Factura factura){
+    public ResponseEntity<Factura> actualizarPrecioFacturaById(@RequestBody Factura factura){
         return facturaService.actualizarPrecioById(factura);
     }
 
     @GetMapping("/obtenerFacturas")
-    public List<Factura> obtenerFacturaById(){
+    public List<Factura> obtenerFacturas(){
         return facturaService.obtenerFacturas();
+    }
+
+    @GetMapping("/getFactOrderByClient")
+    public List<Factura> getFactOrderByClient(){
+        return facturaService.getFactOrderByClient();
     }
 }

@@ -56,4 +56,8 @@ public class FacturaService {
     public List<Factura> obtenerFacturas() {
         return facturaRepository.findAll();
     }
+
+    public List<Factura> getFactOrderByClient() {
+        return facturaRepository.getFactOrderByClient();
+    }
 }

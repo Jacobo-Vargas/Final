@@ -13,10 +13,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 
 @Service
 
@@ -166,11 +163,11 @@ public class MercadoUtilService {
     private void actualizarValorFacturaIndividual(List<DetalleFactura> detallesFactura, Factura factura) {
         double precio = factura.calcularTotalFactura(detallesFactura);
         factura.setTotal(precio);
-        facturaController.actualizarPrecioById(factura);
+        facturaController.actualizarPrecioFacturaById(factura);
     }
 
     public void actualizarValorTotalFacturas(){
-        List<Factura> facturas = facturaController.obtenerFacturaById();
+        List<Factura> facturas = facturaController.obtenerFacturas();
 
         for (Factura factura: facturas){
             List<DetalleFactura> detalles = detalleFacturaController.findDetallesFacturasByIdFactura(factura.getId());
@@ -180,4 +177,47 @@ public class MercadoUtilService {
 
 
     }
+
+    public void escogerPremiados(){
+        List<Factura> listaDeFacturas = facturaController.getFactOrderByClient();
+        for(Factura factura: listaDeFacturas){
+            if(cumpleCondiciones(factura)){
+                Premio premio = new Premio(factura, escogerObsequio(factura.getId()));
+
+            }
+        }
+
+    }
+
+    public String escogerObsequio(Long idFactura){
+        List<DetalleFactura> listaDetalles = detalleFacturaController.findDetallesFacturasByIdFactura(idFactura);
+        return null;
+    }
+
+    public boolean cumpleCondiciones(Factura factura){
+        boolean fechaValida = comprobarFecha(factura.getFecha());
+        boolean precioMayor = factura.getTotal() > 1000000;
+        boolean categoria = comprobarCategoria(factura.getId());
+        return fechaValida && precioMayor && categoria;
+    }
+
+    public boolean comprobarFecha(Date date){
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(date);
+        int diaSemana = calendar.get(Calendar.DAY_OF_WEEK);
+        return diaSemana != Calendar.WEDNESDAY && diaSemana != Calendar.MONDAY;
+    }
+
+    public boolean comprobarCategoria(Long idFactura){
+        List<DetalleFactura> lista = detalleFacturaController.findDetallesFacturasByIdFactura(idFactura);
+        for(DetalleFactura detalle: lista){
+            if(detalle.getProducto().getCategoria().equals(Categoria.ALIMENTOS)){
+                return false;
+            }
+        }
+        return true;
+    }
+
+
+
 }
