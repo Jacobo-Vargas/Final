@@ -10,12 +10,12 @@ import java.util.ArrayList;
 import java.util.Base64;
 import java.util.List;
 
+import com.example.mercadoapp.util.ApiHelper;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import okhttp3.*;
 
 public class ApiClienteService {
-
     private final OkHttpClient client;
 
     public ApiClienteService() {
@@ -26,7 +26,7 @@ public class ApiClienteService {
         ArrayList<ClienteDTO> respuesta = new ArrayList<>();
         respuesta.ensureCapacity(500);
 
-        URL url = new URL("http://localhost:8080/obtenerClientes");
+        URL url = new URL(   ApiHelper.baseUrl + ApiHelper.obtenerClientes);
         Request request = new Request.Builder().url(url).get().build(); // crea la solicitud POST
 
         try(Response response = client.newCall(request).execute()){
@@ -45,7 +45,7 @@ public class ApiClienteService {
         ArrayList<Long> respuesta = new ArrayList<>();
         respuesta.ensureCapacity(500);
 
-        URL url = new URL("http://localhost:8080/registrarClientes"); // url del endpoint
+        URL url = new URL(ApiHelper.baseUrl + ApiHelper.registrarClientes); // url del endpoint
 
 
         RequestBody requestBody = new MultipartBody.Builder()
@@ -80,7 +80,7 @@ public class ApiClienteService {
     }
 
     public String eliminarById(Long id) throws MalformedURLException {
-        URL url = new URL("http://localhost:8080/eliminarCliente/" + id); // url del endpoint
+        URL url = new URL(ApiHelper.baseUrl + ApiHelper.eliminarById + id); // url del endpoint
         Request request = new Request.Builder().url(url).get().build();
         try(Response response = client.newCall(request).execute()){
             return response.body().string();

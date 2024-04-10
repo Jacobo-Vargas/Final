@@ -22,8 +22,8 @@ public class FacturaController {
         return facturaService.obtenerFacturaById(id);
     }
 
-    @PutMapping("/actualizarFactura")
-    public void actualizarPrecioById(@RequestBody Double precio){
+   /* @PutMapping("/actualizarFactura")
+    public Factura actualizarPrecioById(@RequestBody Double precio){
         return facturaService.actualizarPrecioById(precio);
-    }
+    }*/
 }

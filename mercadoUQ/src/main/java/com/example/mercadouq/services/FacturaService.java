@@ -52,9 +52,9 @@ public class FacturaService {
         return facturaRepository.findById(id).orElse(null);
     }
 
-    public Factura actualizarPrecioById(Double precio) {
-        Optional<Factura> factura = facturaRepository.findById(id);
-        facturaRepository.deleteById(id);
+  /*  public Factura actualizarPrecioById(Double precio) {
+        Optional<Factura> factura = facturaRepository.findById(p);
+        facturaRepository.deleteById(precio);
         return null;
-    }
+    }*/
 }
