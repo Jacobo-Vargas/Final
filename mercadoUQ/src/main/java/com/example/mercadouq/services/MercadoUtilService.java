@@ -39,10 +39,10 @@ public class MercadoUtilService {
     public List<Cliente> cargarClientesDesdeCSV(MultipartFile file) {
         List<Cliente> listaClientes = new ArrayList<>();
         String linea;
-        if(file.isEmpty()){
+        if (file.isEmpty()) {
             return listaClientes;
         }
-        try( BufferedReader br = new BufferedReader(new InputStreamReader(file.getInputStream()))){
+        try (BufferedReader br = new BufferedReader(new InputStreamReader(file.getInputStream()))) {
             while ((linea = br.readLine()) != null) {
                 String[] datos = linea.split(","); // Separar los datos por coma
 
@@ -50,12 +50,12 @@ public class MercadoUtilService {
                 String nombre = datos[1];
                 String apellido = datos[2];
                 String direccion = datos[3];
-                Pais pais =  paisController.obtenerPais(Long.valueOf(datos[4])).getBody();
+                Pais pais = paisController.obtenerPais(Long.valueOf(datos[4])).getBody();
                 Long telefono = Long.valueOf(datos[5]);
                 int edad = Integer.parseInt(datos[6]);
                 Genero genero = Genero.valueOf(datos[7]);
 
-                Cliente cliente = new Cliente(cedula,nombre,apellido,direccion,pais,telefono,edad,genero);
+                Cliente cliente = new Cliente(cedula, nombre, apellido, direccion, pais, telefono, edad, genero);
                 listaClientes.add(cliente);
             }
         } catch (IOException ignored) {
@@ -63,35 +63,35 @@ public class MercadoUtilService {
         return listaClientes;
     }
 
-    public List<Pais> cargarPaisesDesdeCSV(MultipartFile file){
+    public List<Pais> cargarPaisesDesdeCSV(MultipartFile file) {
         List<Pais> listaPaises = new ArrayList<>();
         String linea;
-        if(file.isEmpty()){
+        if (file.isEmpty()) {
             return listaPaises;
         }
-        try(BufferedReader br = new BufferedReader(new InputStreamReader(file.getInputStream()))){
-            while((linea = br.readLine()) != null){
-               String[] datos = linea.split(",");
+        try (BufferedReader br = new BufferedReader(new InputStreamReader(file.getInputStream()))) {
+            while ((linea = br.readLine()) != null) {
+                String[] datos = linea.split(",");
 
-               Long id = Long.valueOf(datos[0]);
-               String nombre = datos[1];
-               TipoPais tipoPais = TipoPais.valueOf(datos[2]);
+                Long id = Long.valueOf(datos[0]);
+                String nombre = datos[1];
+                TipoPais tipoPais = TipoPais.valueOf(datos[2]);
 
-               listaPaises.add(new Pais(id, nombre, tipoPais));
+                listaPaises.add(new Pais(id, nombre, tipoPais));
             }
         } catch (IOException ignored) {
         }
         return listaPaises;
     }
 
-    public List<Producto> cargarProductosDesdeCSV(MultipartFile file){
+    public List<Producto> cargarProductosDesdeCSV(MultipartFile file) {
         List<Producto> listaProductos = new ArrayList<>();
         String linea;
-        if(file.isEmpty()){
+        if (file.isEmpty()) {
             return listaProductos;
         }
-        try(BufferedReader br = new BufferedReader(new InputStreamReader(file.getInputStream()))){
-            while((linea = br.readLine()) != null){
+        try (BufferedReader br = new BufferedReader(new InputStreamReader(file.getInputStream()))) {
+            while ((linea = br.readLine()) != null) {
                 String[] datos = linea.split(",");
 
                 Long id = Long.valueOf(datos[0]);
@@ -107,28 +107,30 @@ public class MercadoUtilService {
         return listaProductos;
     }
 
-    public List<Factura> cargarFacturasDesdeCSV(MultipartFile file){
+    public List<Factura> cargarFacturasDesdeCSV(MultipartFile file) {
         List<Factura> listaFacturas = new ArrayList<>();
         String linea;
-        if(file.isEmpty()){
+        if (file.isEmpty()) {
             return null;
         }
-        try(BufferedReader br = new BufferedReader(new InputStreamReader(file.getInputStream()))){
-            while((linea = br.readLine()) != null){
+        try (BufferedReader br = new BufferedReader(new InputStreamReader(file.getInputStream()))) {
+            while ((linea = br.readLine()) != null) {
                 String[] datos = linea.split(",");
 
                 Long id = Long.valueOf(datos[0]);
                 Date fecha = new SimpleDateFormat("yyyy-MM-dd").parse(datos[1]);
-                Cliente cliente = (Cliente)  clienteController.obtenerById(Long.parseLong(datos[2])).getBody();
+                Cliente cliente = (Cliente) clienteController.obtenerById(Long.parseLong(datos[2])).getBody();
 
-                List<DetalleFactura> listaDetalles = detalleFacturaController.findFacturasById(id);
+                List<DetalleFactura> listaDetalles = detalleFacturaController.findDetallesFacturasByIdFactura(id);
 
 
-                if(listaDetalles != null && !listaDetalles.isEmpty()){
-                    Factura factura = new Factura(id,fecha,cliente,listaDetalles);
+                if (listaDetalles != null) {
+                    Factura factura = new Factura(id, fecha, cliente);
+                    factura.setTotal(factura.calcularTotalFactura(listaDetalles));
                     listaFacturas.add(factura);
                 } else {
-                    Factura factura = new Factura(id,fecha,cliente,new ArrayList<>());
+                    Factura factura = new Factura(id, fecha, cliente);
+                    factura.setTotal(factura.calcularTotalFactura(null));
                     listaFacturas.add(factura);
                 }
 
@@ -140,30 +142,41 @@ public class MercadoUtilService {
 
     public List<DetalleFactura> cargarDetallesFacturaDesdeCsv(MultipartFile file) throws IOException {
         List<DetalleFactura> lista = new ArrayList<>();
-        String linea ;
-        if(file.isEmpty()){
+        String linea;
+        if (file.isEmpty()) {
             return lista;
         }
-        try(BufferedReader br = new BufferedReader(new InputStreamReader(file.getInputStream()))){
-            while ((linea = br.readLine()) != null){
+        try (BufferedReader br = new BufferedReader(new InputStreamReader(file.getInputStream()))) {
+            while ((linea = br.readLine()) != null) {
                 String[] datos = linea.split(",");
 
                 Long id = Long.valueOf(datos[0]);
-                Factura factura = facturaController.obtenerFacturaById(Long.valueOf(datos[1]));
+                Long idFactura = Long.valueOf(datos[1]);
                 Producto p = (Producto) productoController.obtenerProductoById(Long.valueOf(datos[2])).getBody();
                 int cantidad = Integer.parseInt(datos[3]);
 
-                if(factura != null){
-                    DetalleFactura detalle = new DetalleFactura(id, factura, p, cantidad );
-                    lista.add(detalle);
-                }
+                DetalleFactura detalle = new DetalleFactura(id, idFactura, p, cantidad);
+                lista.add(detalle);
             }
         }
         return lista;
     }
 
-    public void actualizarValorTotalFacturas(Long id){
-// llamo obtenerFactura
-        // si tiene Detalles extraigo precio y envio el nuevo precio
+    private void actualizarValorFacturaIndividual(List<DetalleFactura> detallesFactura, Factura factura) {
+        double precio = factura.calcularTotalFactura(detallesFactura);
+        factura.setTotal(precio);
+        facturaController.actualizarPrecioById(factura);
+    }
+
+    public void actualizarValorTotalFacturas(){
+        List<Factura> facturas = facturaController.obtenerFacturaById();
+
+        for (Factura factura: facturas){
+            List<DetalleFactura> detalles = detalleFacturaController.findDetallesFacturasByIdFactura(factura.getId());
+           actualizarValorFacturaIndividual(detalles, factura);
+        }
+
+
+
     }
 }

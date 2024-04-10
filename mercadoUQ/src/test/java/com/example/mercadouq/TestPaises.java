@@ -1,7 +1,6 @@
 package com.example.mercadouq;
 
-import com.example.mercadouq.controller.FacturaController;
-import com.example.mercadouq.entities.Factura;
+import com.example.mercadouq.controller.PaisController;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -16,21 +15,20 @@ import java.util.Objects;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-
 @SpringBootTest
-public class TestFactura {
+public class TestPaises {
 
     @Autowired
-    private FacturaController facturaController;
+    private PaisController paisController;
 
     @Test
-    void registrarFactura(){
+    void registrarPaises(){
 
         try{
 
-            InputStream inputStream = new FileInputStream("src/main/resources/fileCsv/facturas.csv");
-            MockMultipartFile file = new MockMultipartFile("file", "facturas.csv", "text/csv", inputStream);
-            ResponseEntity<?> response = facturaController.registrarFacturas(file);
+            InputStream inputStream = new FileInputStream("src/main/resources/fileCsv/paises.csv");
+            MockMultipartFile file = new MockMultipartFile("file", "paises.csv", "text/csv", inputStream);
+            ResponseEntity<?> response = paisController.registrarPaises(file);
 
             assertEquals(HttpStatus.OK, response.getStatusCode(), Objects.requireNonNull(response.getBody()).toString());
 
@@ -38,11 +36,5 @@ public class TestFactura {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-    }
-
-    @Test
-    void obtenerFacturaByid(){
-        Factura response = facturaController.obtenerFacturaById(1L);
-        System.out.println();
     }
 }

@@ -1,6 +1,8 @@
 package com.example.mercadouq.services;
 
+import com.example.mercadouq.controller.FacturaController;
 import com.example.mercadouq.entities.DetalleFactura;
+import com.example.mercadouq.entities.Factura;
 import com.example.mercadouq.repository.IDetallesFacturaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -16,13 +18,16 @@ import java.util.List;
 public class DetalleFacturaService {
 
     @Autowired
-    IDetallesFacturaRepository detallesFacturaRepository;
+    private IDetallesFacturaRepository detallesFacturaRepository;
 
     @Autowired
-    MercadoUtilService mercadoUtilService;
+    private MercadoUtilService mercadoUtilService;
 
-    public List<DetalleFactura> findDetallesFacturasById(Long id){
-        return detallesFacturaRepository.findFacturasById(id);
+    @Autowired
+    private FacturaService facturaService;
+
+    public List<DetalleFactura> findDetallesFacturasById(Long idFactura){
+        return detallesFacturaRepository.findFacturasById(idFactura);
     }
 
     public ResponseEntity<?> registrarDetallesFacturas(MultipartFile file) {
@@ -45,6 +50,7 @@ public class DetalleFacturaService {
                 }
             }
         }
+        mercadoUtilService.actualizarValorTotalFacturas();
         return ResponseEntity.ok().body(repetidos);
     }
 }

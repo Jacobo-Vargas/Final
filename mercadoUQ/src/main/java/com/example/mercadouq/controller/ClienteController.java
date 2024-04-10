@@ -16,12 +16,12 @@ public class ClienteController {
     private ClienteService clienteService;
 
     @PostMapping("/registrarCliente")
-    public ResponseEntity<?> registrarClientes(@RequestBody Cliente cliente){
+    public ResponseEntity<?> registrarCliente(@RequestBody Cliente cliente){
         return clienteService.registrarCliente(cliente);
     }
 
     @PostMapping("/registrarClientes")
-    public ResponseEntity<List<Long>> registrarCliente(@RequestBody MultipartFile file){
+    public ResponseEntity<List<Long>> registrarClientes(@RequestBody MultipartFile file){
         return clienteService.registrarClientes(file);
     }
 

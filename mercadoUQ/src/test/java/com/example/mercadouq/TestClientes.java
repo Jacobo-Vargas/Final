@@ -1,7 +1,6 @@
 package com.example.mercadouq;
 
-import com.example.mercadouq.controller.FacturaController;
-import com.example.mercadouq.entities.Factura;
+import com.example.mercadouq.controller.ClienteController;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -16,21 +15,18 @@ import java.util.Objects;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-
 @SpringBootTest
-public class TestFactura {
-
+public class TestClientes {
     @Autowired
-    private FacturaController facturaController;
+    private ClienteController clienteController;
 
     @Test
-    void registrarFactura(){
-
+    void registrarClientes(){
         try{
 
-            InputStream inputStream = new FileInputStream("src/main/resources/fileCsv/facturas.csv");
-            MockMultipartFile file = new MockMultipartFile("file", "facturas.csv", "text/csv", inputStream);
-            ResponseEntity<?> response = facturaController.registrarFacturas(file);
+            InputStream inputStream = new FileInputStream("src/main/resources/fileCsv/clientes.csv");
+            MockMultipartFile file = new MockMultipartFile("file", "clientes.csv", "text/csv", inputStream);
+            ResponseEntity<?> response = clienteController.registrarClientes(file);
 
             assertEquals(HttpStatus.OK, response.getStatusCode(), Objects.requireNonNull(response.getBody()).toString());
 
@@ -40,9 +36,4 @@ public class TestFactura {
         }
     }
 
-    @Test
-    void obtenerFacturaByid(){
-        Factura response = facturaController.obtenerFacturaById(1L);
-        System.out.println();
-    }
 }

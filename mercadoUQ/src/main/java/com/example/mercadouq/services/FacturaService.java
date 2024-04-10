@@ -17,9 +17,9 @@ import java.util.Optional;
 public class FacturaService {
 
     @Autowired
-    IFacturaRepository facturaRepository;
+    private IFacturaRepository facturaRepository;
     @Autowired
-    ClienteService clienteService;
+    private ClienteService clienteService;
     @Autowired
     private MercadoUtilService mercadoUtilService;
 
@@ -52,9 +52,11 @@ public class FacturaService {
         return facturaRepository.findById(id).orElse(null);
     }
 
-  /*  public Factura actualizarPrecioById(Double precio) {
-        Optional<Factura> factura = facturaRepository.findById(p);
-        facturaRepository.deleteById(precio);
-        return null;
-    }*/
+    public ResponseEntity<Factura> actualizarPrecioById(Factura factura) {
+        return ResponseEntity.ok().body(facturaRepository.save(factura));
+    }
+
+    public List<Factura> obtenerFacturas() {
+        return facturaRepository.findAll();
+    }
 }

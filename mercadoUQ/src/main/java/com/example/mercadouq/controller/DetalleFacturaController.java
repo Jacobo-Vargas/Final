@@ -13,11 +13,11 @@ import java.util.List;
 public class DetalleFacturaController {
 
     @Autowired
-    DetalleFacturaService detalleFacturaService;
+    private DetalleFacturaService detalleFacturaService;
 
     @GetMapping("/findFacturasByid")
-    public List<DetalleFactura> findFacturasById(@RequestBody Long id){
-        return detalleFacturaService.findDetallesFacturasById(id);
+    public List<DetalleFactura> findDetallesFacturasByIdFactura(@RequestBody Long idFactura){
+        return detalleFacturaService.findDetallesFacturasById(idFactura);
     }
 
     @PostMapping("/registrarDetallesFacturas")

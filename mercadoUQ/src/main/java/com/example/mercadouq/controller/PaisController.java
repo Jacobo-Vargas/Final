@@ -21,7 +21,7 @@ public class PaisController {
     }
 
     @PostMapping("/registrarPaises")
-    public ResponseEntity<List<String>> obtenerPais(@RequestBody MultipartFile file){
+    public ResponseEntity<List<String>> registrarPaises(@RequestBody MultipartFile file){
         return paisService.registrarPaises(file);
     }
 

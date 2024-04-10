@@ -23,20 +23,20 @@ public class Factura {
     @JoinColumn(name = "IDCLIENTE", nullable = false)
     private Cliente cliente;
 
-    @OneToMany(mappedBy = "factura", cascade = CascadeType.ALL)
-    private List<DetalleFactura> detalles;
+    @Column(name = "TOTALFACTURA", updatable = true, nullable = false)
+    private double total;
 
 
 
-    public Factura(Long id, Date fecha, Cliente cliente, List<DetalleFactura> detalles) {
+    public Factura(Long id, Date fecha, Cliente cliente) {
         this.id = id;
         this.fecha = fecha;
         this.cliente = cliente;
-        this.detalles = detalles;
     }
 
-    private double calcularTotalFactura() {
-        if(this.detalles != null){
+
+    public double calcularTotalFactura(List<DetalleFactura> detalles) {
+        if(detalles != null){
             return detalles.stream().mapToDouble(DetalleFactura::getTotal).sum();
         } else {
             return 0;

@@ -14,7 +14,7 @@ import java.util.List;
 public class ProductoService {
 
     @Autowired
-    IProductoRepository productoRepository;
+    private IProductoRepository productoRepository;
     @Autowired
     private MercadoUtilService mercadoUtilService;
 

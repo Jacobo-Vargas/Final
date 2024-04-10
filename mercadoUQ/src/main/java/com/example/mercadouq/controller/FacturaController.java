@@ -7,6 +7,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.List;
+
 @RestController
 public class FacturaController {
     @Autowired
@@ -22,8 +24,13 @@ public class FacturaController {
         return facturaService.obtenerFacturaById(id);
     }
 
-   /* @PutMapping("/actualizarFactura")
-    public Factura actualizarPrecioById(@RequestBody Double precio){
-        return facturaService.actualizarPrecioById(precio);
-    }*/
+   @PutMapping("/actualizarFactura")
+    public ResponseEntity<Factura> actualizarPrecioById(@RequestBody Factura factura){
+        return facturaService.actualizarPrecioById(factura);
+    }
+
+    @GetMapping("/obtenerFacturas")
+    public List<Factura> obtenerFacturaById(){
+        return facturaService.obtenerFacturas();
+    }
 }
