@@ -16,9 +16,10 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Objects;
 
 @Service
-@SuppressWarnings("unchecked")
+
 public class MercadoUtilService {
 
     @Autowired
@@ -155,7 +156,7 @@ public class MercadoUtilService {
                 Producto p = (Producto) productoController.obtenerProductoById(Long.valueOf(datos[2])).getBody();
                 int cantidad = Integer.parseInt(datos[3]);
 
-                DetalleFactura detalle = new DetalleFactura(id, idFactura, p, cantidad);
+                DetalleFactura detalle = new DetalleFactura(id, idFactura, Objects.requireNonNull(p), cantidad);
                 lista.add(detalle);
             }
         }

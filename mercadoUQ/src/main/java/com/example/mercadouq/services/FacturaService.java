@@ -1,7 +1,5 @@
 package com.example.mercadouq.services;
 
-import com.example.mercadouq.entities.Cliente;
-import com.example.mercadouq.entities.DetalleFactura;
 import com.example.mercadouq.entities.Factura;
 import com.example.mercadouq.repository.IFacturaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,7 +9,6 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class FacturaService {
