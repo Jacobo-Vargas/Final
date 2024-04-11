@@ -7,6 +7,7 @@ import com.example.mercadouq.entities.enums.Estado;
 import com.example.mercadouq.entities.enums.Genero;
 import com.example.mercadouq.entities.enums.TipoPais;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.jpa.convert.threeten.Jsr310JpaConverters;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -14,7 +15,10 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 
@@ -37,6 +41,9 @@ public class MercadoUtilService {
 
     @Autowired
     private PremioController premioController;
+
+    @Autowired
+    private ObsequiController obsequiController;
 
     public List<Cliente> cargarClientesDesdeCSV(MultipartFile file) {
         List<Cliente> listaClientes = new ArrayList<>();
@@ -195,8 +202,44 @@ public class MercadoUtilService {
     }
 
     private Obsequio escogerObsequio(Long idFactura) {
-        List<DetalleFactura> listaDetalles = detalleFacturaController.findDetallesFacturasByIdFactura(idFactura);
 
+        /* Obtengo las facturas asociadas al cliente de la factura actual*/
+        List<Factura> facturas = facturaController.obtenerFacturasByIdClient(facturaController.obtenerFacturaById(idFactura).getCliente().getCedula());
+        /* De las facturas obtenidas se extraen las que sean menores a un año y se ordenan de forma tal que las más recientes quedan primero*/
+        List<Factura> tenidasEnCuenta = facturas.stream().filter(factura -> compararFecha(factura.getFecha())).sorted(Comparator.comparing(Factura::getFecha).reversed()).toList();
+        /* Se obtiene el número de las facturas a tener en cuenta para revisar el premio*/
+        int facturasARevisar = (int) (tenidasEnCuenta.size() * 0.1);
+
+        int tecnologia = 0;
+        int cosmeticos = 0;
+        int electrodomesticos = 0;
+
+        /*Se recorre la cantidad de facturas a tener en cuenta*/
+        for (int i = 0; i < facturasARevisar ; i++) {
+            /* Se obtiene los detalles de la factura para hacer el conteo de cuál fue el producto que más compró*/
+            List<DetalleFactura> listaDetalles = detalleFacturaController.findDetallesFacturasByIdFactura(tenidasEnCuenta.get(0).getId());
+
+            for(DetalleFactura detalle: listaDetalles){
+                if(detalle.getProducto().getCategoria().equals(Categoria.TECNOLOGIA)){
+                    tecnologia++;
+                } else if (detalle.getProducto().getCategoria().equals(Categoria.COSMETICOS)){
+                    cosmeticos++;
+                } else if (detalle.getProducto().getCategoria().equals(Categoria.ELECTRODOMESTICOS)){
+                    electrodomesticos++;
+                }
+            }
+
+            if(tecnologia > cosmeticos && tecnologia > electrodomesticos){
+
+                /*Tomar obsequio de la pila*/
+                Queue<Obsequio> pilaTecnologia = obsequiController.getObsequiosByCategoria(Categoria.TECNOLOGIA);
+                Obsequio obsequio = pilaTecnologia.peek();
+                obsequiController.eliminarObsequio(obsequio.getId());
+                return pilaTecnologia.poll();
+            }
+
+
+        }
         return null;
     }
 
@@ -232,4 +275,12 @@ public class MercadoUtilService {
 
     }
 
+    /**
+     * @return true si la fecha pasada por parámetro es de hace más de un año
+     */
+    public boolean compararFecha(Date date){
+       LocalDate beforeYear = LocalDate.now().minusYears(1);
+       Date fechaNueva = Date.from(beforeYear.atStartOfDay(ZoneId.systemDefault()).toInstant());
+       return date.before(fechaNueva);
+    }
 }

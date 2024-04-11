@@ -15,8 +15,7 @@ public class FacturaService {
 
     @Autowired
     private IFacturaRepository facturaRepository;
-    @Autowired
-    private ClienteService clienteService;
+
     @Autowired
     private MercadoUtilService mercadoUtilService;
 
@@ -59,5 +58,9 @@ public class FacturaService {
 
     public List<Factura> getFactOrderByClient() {
         return facturaRepository.getFactOrderByClient();
+    }
+
+    public List<Factura> obtenerFacturasByIdClient(Long id) {
+        return facturaRepository.obtenerFacturasByIdClient(id);
     }
 }

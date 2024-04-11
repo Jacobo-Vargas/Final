@@ -38,4 +38,9 @@ public class FacturaController {
     public List<Factura> getFactOrderByClient(){
         return facturaService.getFactOrderByClient();
     }
+
+    @GetMapping
+    public List<Factura> obtenerFacturasByIdClient(Long id){
+        return facturaService.obtenerFacturasByIdClient(id);
+    }
 }

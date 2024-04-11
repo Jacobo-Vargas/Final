@@ -13,4 +13,7 @@ public interface IFacturaRepository extends JpaRepository<Factura, Long> {
 
     @Query("SELECT e FROM Factura e order by e.cliente.cedula")
     List<Factura> getFactOrderByClient();
+
+    @Query("SELECT e FROM Factura e WHERE e.cliente.cedula = :id")
+    List<Factura> obtenerFacturasByIdClient(Long id);
 }
