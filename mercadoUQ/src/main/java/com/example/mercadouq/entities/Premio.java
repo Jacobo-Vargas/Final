@@ -20,16 +20,17 @@ public class Premio {
     @Column(name = "NOMBRECLIENTE")
     private String nombreCliente;
 
-//    @Column(name = "OBSEQUIO", nullable = false)
-//    private Obsequios obsequios;
+    @OneToOne
+    @JoinColumn(name = "OBSEQUIO", nullable = false)
+    private Obsequio obsequio;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "ESTADO", nullable = false)
     private Estado estado;
 
-    public Premio(Factura factura) {
+    public Premio(Factura factura, Obsequio obsequio) {
         this.factura = factura;
-        //this.obsequios = obsequios;
+        this.obsequio = obsequio;
         this.nombreCliente = factura.getCliente().getNombre() + factura.getCliente().getApellido();
     }
 
