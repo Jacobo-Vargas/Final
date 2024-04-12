@@ -19,8 +19,8 @@ public class PremioController {
         return premioService.registrarPremio(premio);
     }
 
-    @GetMapping("/escogerPremiados")
-    public ResponseEntity<?> escogerPremiados(){
-        return premioService.escogerPremiados();
-    }
+//    @GetMapping("/escogerPremiados")
+//    public ResponseEntity<?> escogerPremiados(){
+//        return premioService.escogerPremiados();
+//    }
 }

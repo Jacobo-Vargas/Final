@@ -18,13 +18,13 @@ public class PremioService {
         return ResponseEntity.ok().body(premioRepository.save(premio));
     }
 
-    public ResponseEntity<?> escogerPremiados(){
-        try{
-            mercadoUtilService.escogerPremiados();
-            return ResponseEntity.ok().body("Proceso exitoso.");
-        }catch (Exception e){
-            return ResponseEntity.badRequest().body("Ocurrió un error.");
-        }
-    }
+//    public ResponseEntity<?> escogerPremiados(){
+//        try{
+//            mercadoUtilService.escogerPremiados();
+//            return ResponseEntity.ok().body("Proceso exitoso.");
+//        }catch (Exception e){
+//            return ResponseEntity.badRequest().body("Ocurrió un error.");
+//        }
+//    }
 
 }
