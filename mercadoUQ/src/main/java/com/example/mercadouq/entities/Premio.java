@@ -28,6 +28,9 @@ public class Premio {
     @Column(name = "ESTADO", nullable = false)
     private Estado estado;
 
+    @Column(name = "NUMEROAVION")
+    private int numeroAvion;
+
     public Premio(Factura factura, Obsequio obsequio) {
         this.factura = factura;
         this.obsequio = obsequio;
@@ -35,6 +38,5 @@ public class Premio {
     }
 
     public Premio() {
-
     }
 }

@@ -184,21 +184,6 @@ public class MercadoUtilService {
         }
     }
 
-    /**
-     * Se llama desde un endpoint se escogen premiados, se asigna premio y cuando están se encolan
-     */
-    public void escogerPremiados() {
-        List<Factura> listaDeFacturas = facturaController.getFactOrderByClient();
-        for (Factura factura : listaDeFacturas) {
-            if (cumpleCondiciones(factura)) {
-                Premio premio = new Premio(factura, escogerObsequio(factura.getId()));
-                premio.setEstado(Estado.ESPERA);
-                premioController.registrarPremio(premio);
-            }
-        }
-        encolarPremios();
-    }
-
     private Obsequio escogerObsequio(Long idFactura) {
 
         /* Obtengo las facturas asociadas al cliente de la factura actual*/
@@ -213,30 +198,38 @@ public class MercadoUtilService {
         int electrodomesticos = 0;
 
         /*Se recorre la cantidad de facturas a tener en cuenta*/
-        for (int i = 0; i < facturasARevisar ; i++) {
+        for (int i = 0; i < facturasARevisar; i++) {
             /* Se obtiene los detalles de la factura para hacer el conteo de cuál fue el producto que más compró*/
-            List<DetalleFactura> listaDetalles = detalleFacturaController.findDetallesFacturasByIdFactura(tenidasEnCuenta.get(0).getId());
+            List<DetalleFactura> listaDetalles = detalleFacturaController.findDetallesFacturasByIdFactura(tenidasEnCuenta.get(i).getId());
 
-            for(DetalleFactura detalle: listaDetalles){
-                if(detalle.getProducto().getCategoria().equals(Categoria.TECNOLOGIA)){
+            for (DetalleFactura detalle : listaDetalles) {
+                if (detalle.getProducto().getCategoria().equals(Categoria.TECNOLOGIA)) {
                     tecnologia++;
-                } else if (detalle.getProducto().getCategoria().equals(Categoria.COSMETICOS)){
+                } else if (detalle.getProducto().getCategoria().equals(Categoria.COSMETICOS)) {
                     cosmeticos++;
-                } else if (detalle.getProducto().getCategoria().equals(Categoria.ELECTRODOMESTICOS)){
+                } else if (detalle.getProducto().getCategoria().equals(Categoria.ELECTRODOMESTICOS)) {
                     electrodomesticos++;
                 }
             }
-
-            if(tecnologia > cosmeticos && tecnologia > electrodomesticos){
-
+            if (tecnologia > cosmeticos && tecnologia > electrodomesticos) {
                 /*Tomar obsequio de la pila*/
                 Queue<Obsequio> pilaTecnologia = obsequioController.getObsequiosByCategoria(Categoria.TECNOLOGIA);
                 Obsequio obsequio = pilaTecnologia.peek();
                 obsequioController.eliminarObsequio(obsequio.getId());
                 return pilaTecnologia.poll();
+            } else if (electrodomesticos > tecnologia && electrodomesticos > cosmeticos) {
+                /*Tomar obsequio de la pila*/
+                Queue<Obsequio> pilaElectrodomesticos = obsequioController.getObsequiosByCategoria(Categoria.ELECTRODOMESTICOS);
+                Obsequio obsequio = pilaElectrodomesticos.peek();
+                obsequioController.eliminarObsequio(obsequio.getId());
+                return pilaElectrodomesticos.poll();
+            } else {
+                /*Tomar obsequio de la pila*/
+                Queue<Obsequio> pilaCosmeticos = obsequioController.getObsequiosByCategoria(Categoria.COSMETICOS);
+                Obsequio obsequio = pilaCosmeticos.peek();
+                obsequioController.eliminarObsequio(obsequio.getId());
+                return pilaCosmeticos.poll();
             }
-
-
         }
         return null;
     }
@@ -266,19 +259,82 @@ public class MercadoUtilService {
     }
 
     /**
-     * Este método debería devolver un informe con los datos del orden de despacho o al final cuando se carguen al avión
-     * cambiar estado de premio a ENCOLADO y posteriormente a ENVIADO cuando se despache
+     * @return true si la fecha pasada por parámetro es de hace más de un año
      */
-    private void encolarPremios() {
-
+    private boolean compararFecha(Date date) {
+        LocalDate beforeYear = LocalDate.now().minusYears(1);
+        Date fechaNueva = Date.from(beforeYear.atStartOfDay(ZoneId.systemDefault()).toInstant());
+        return date.before(fechaNueva);
     }
 
     /**
-     * @return true si la fecha pasada por parámetro es de hace más de un año
+     * Se llama desde un endpoint se escogen premiados, se asigna premio se registran en la BD
+     * y se cambia estado en 'ESPERA'
      */
-    public boolean compararFecha(Date date){
-       LocalDate beforeYear = LocalDate.now().minusYears(1);
-       Date fechaNueva = Date.from(beforeYear.atStartOfDay(ZoneId.systemDefault()).toInstant());
-       return date.before(fechaNueva);
+    public void escogerPremiados() {
+        List<Factura> listaDeFacturas = facturaController.getFactOrderByClient();
+        for (Factura factura : listaDeFacturas) {
+            if (cumpleCondiciones(factura)) {
+                Premio premio = new Premio(factura, escogerObsequio(factura.getId()));
+                premio.setEstado(Estado.ESPERA);
+                premioController.registrarPremio(premio);
+            }
+        }
+    }
+
+    /**
+     * Este método devuelve la lista de los premios encolados y cambia el estado en la BD
+     * ha 'ENCOLADO'
+     */
+    @SuppressWarnings("unchecked")
+    private Queue<Premio> encolarPremios() {
+        /*Para encolar los premios y asi simular el envío vamos a traer los registros de los premios de la base de datos*/
+        List<Premio> premiados = (List<Premio>) premioController.getPremioByEstado(Estado.ESPERA).getBody();
+        Queue<Premio> ordenPremiados = new PriorityQueue<>(new OrdenadorPremiosService());
+
+        if(premiados != null){
+            for (Premio p: premiados) {
+                p.setEstado(Estado.ENCOLADO);
+                /*Se actualiza el estado del premio en la BD*/
+                premioController.actualizarEstadoEncolado(p);
+                ordenPremiados.add(p);
+            }
+        }
+        return ordenPremiados;
+    }
+
+    /**
+     * Este método devuelve la lista de premios asignados en el avion, se cambia
+     * estado en la BD ha 'ENVIADO'
+     */
+    @SuppressWarnings("unchecked")
+    public List<Premio> enviarPremios(int cantidadAviones, int premiosPorAvion){
+        Queue<Premio> encoladosAEnviar = encolarPremios();
+        ArrayList<Premio> resultado = new ArrayList<>();
+
+        int numeroAvion = 1;
+        int premiosEnAvion = 0;
+        boolean avionesDisponibles = true;
+        while(avionesDisponibles){
+
+            Premio p =  encoladosAEnviar.peek();
+            if(!resultado.contains(p)){
+                Premio premio = encoladosAEnviar.poll();
+                premio.setNumeroAvion(numeroAvion);
+                premio.setEstado(Estado.ENVIADO);
+                resultado.add(premio);
+                // aquí se actualiza en la BD ha estado 'enviado'
+                premioController.actualizarEstadoEncolado(premio);
+                premiosEnAvion++;
+            }
+
+            if(premiosEnAvion == premiosPorAvion){
+                numeroAvion++;
+            }
+            if(numeroAvion > cantidadAviones){
+                avionesDisponibles = false;
+            }
+        }
+        return resultado;
     }
 }
