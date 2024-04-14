@@ -33,6 +33,9 @@ public class PremioService {
         premioRepository.save(p);
     }
 
+    /**
+     * Método que hace el proceso de encolar los premios en orden y así mismo despacharlos
+     */
     public ResponseEntity<List<Premio>> enviarPremios(int premiosPorAvion, int cantidadAviones) {
         return ResponseEntity.ok().body(mercadoUtilService.enviarPremios(premiosPorAvion, cantidadAviones));
     }
