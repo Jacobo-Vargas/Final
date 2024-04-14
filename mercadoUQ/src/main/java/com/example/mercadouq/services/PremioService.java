@@ -37,7 +37,7 @@ public class PremioService {
         return ResponseEntity.ok().body(mercadoUtilService.enviarPremios(premiosPorAvion, cantidadAviones));
     }
 
-    // Método que acciona el proceso de escoger los premiados y encolarlos
+    // Método que acciona el proceso de escoger los premiados
     public ResponseEntity<?> escogerPremiados(){
         try{
             mercadoUtilService.escogerPremiados();
