@@ -15,6 +15,11 @@ public class DetalleFacturaController {
     @Autowired
     private DetalleFacturaService detalleFacturaService;
 
+    @GetMapping("/obtenerDetalleFacturas")
+    public List<DetalleFactura> obtenerDetalleFacturas(){
+        return detalleFacturaService.obtenerDetalleFacturas();
+    }
+
     @GetMapping("/findFacturasByid")
     public List<DetalleFactura> findDetallesFacturasByIdFactura(@RequestBody Long idFactura){
         return detalleFacturaService.findDetallesFacturasById(idFactura);

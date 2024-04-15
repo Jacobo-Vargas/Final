@@ -1,6 +1,8 @@
 package com.example.mercadouq.services;
 
 import com.example.mercadouq.entities.DetalleFactura;
+import com.example.mercadouq.entities.Factura;
+import com.example.mercadouq.entities.Pais;
 import com.example.mercadouq.repository.IDetallesFacturaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -51,4 +53,10 @@ public class DetalleFacturaService {
         mercadoUtilService.actualizarValorTotalFacturas();
         return ResponseEntity.ok().body(repetidos);
     }
+
+    public List<DetalleFactura> obtenerDetalleFacturas() {
+        return detallesFacturaRepository.findAll();
+    }
+
+
 }

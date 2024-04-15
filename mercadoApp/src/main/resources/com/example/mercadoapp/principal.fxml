@@ -19,23 +19,28 @@
                     <children>
                         <TabPane prefHeight="504.0" prefWidth="759.0" tabClosingPolicy="UNAVAILABLE">
                             <tabs>
-                                <Tab text="Cargar Clientes">
-                                    <content>
-                                        <fx:include source="cargarClientes.fxml"/>
-                                    </content>
-                                </Tab>
-
-                                <Tab text="Cargar Facturas">
-                                    <content>
-                                        <fx:include source="cargarFactura.fxml"/>
-                                    </content>
-                                </Tab>
-
                                 <Tab text="Cargar Paises">
                                     <content>
                                         <fx:include source="cargarPaises.fxml"/>
                                     </content>
                                 </Tab>
+                                <Tab text="Cargar Clientes">
+                                    <content>
+                                        <fx:include source="cargarClientes.fxml"/>
+                                    </content>
+                                </Tab>
+                                <Tab text="Cargar Facturas">
+                                    <content>
+                                        <fx:include source="cargarFactura.fxml"/>
+                                    </content>
+                                </Tab>
+                                <Tab text="Cargar Detalle Facturas">
+                                    <content>
+                                        <fx:include source="cargarDetalleFactura.fxml"/>
+                                    </content>
+                                </Tab>
+
+
                             </tabs>
                         </TabPane>
                     </children>
