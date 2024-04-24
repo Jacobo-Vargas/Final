@@ -169,6 +169,30 @@ public class MercadoUtilService {
         return lista;
     }
 
+
+    public List<Obsequio> cargarObsequiosDesdeCSV(MultipartFile file) {
+        List<Obsequio> listaObsequios = new ArrayList<>();
+        String linea;
+        if (file.isEmpty()) {
+            return listaObsequios;
+        }
+        try (BufferedReader br = new BufferedReader(new InputStreamReader(file.getInputStream()))) {
+            while ((linea = br.readLine()) != null) {
+                String[] datos = linea.split(","); // Separar los datos por coma
+
+                Long id = Long.valueOf(datos[0]);
+                String nombre = datos[1];
+                Categoria categoria = Categoria.valueOf(datos[2]);
+                Integer prioridad = Integer.valueOf(datos[3]) ;
+
+                Obsequio obsequio = new Obsequio(id,nombre,categoria,prioridad);
+                listaObsequios.add(obsequio);
+            }
+        } catch (IOException ignored) {
+        }
+        return listaObsequios;
+    }
+
     private void actualizarValorFacturaIndividual(List<DetalleFactura> detallesFactura, Factura factura) {
         double precio = factura.calcularTotalFactura(detallesFactura);
         factura.setTotal(precio);
@@ -188,10 +212,15 @@ public class MercadoUtilService {
 
         /* Obtengo las facturas asociadas al cliente de la factura actual*/
         List<Factura> facturas = facturaController.obtenerFacturasByIdClient(facturaController.obtenerFacturaById(idFactura).getCliente().getCedula());
+
+
+
+
         /* De las facturas obtenidas se extraen las que sean menores a un año y se ordenan de forma tal que las más recientes quedan primero*/
-        List<Factura> tenidasEnCuenta = facturas.stream().filter(factura -> compararFecha(factura.getFecha())).sorted(Comparator.comparing(Factura::getFecha).reversed()).toList();
+        List<Factura> tenidasEnCuenta = facturas.stream().filter(factura -> !compararFecha(factura.getFecha())).sorted(Comparator.comparing(Factura::getFecha).reversed()).toList();
+
         /* Se obtiene el número de las facturas a tener en cuenta para revisar el premio*/
-        int facturasARevisar = (int) (tenidasEnCuenta.size() * 0.1);
+        double facturasARevisar = (double) (tenidasEnCuenta.size() * 0.1);
 
         int tecnologia = 0;
         int cosmeticos = 0;
@@ -273,9 +302,10 @@ public class MercadoUtilService {
      */
     public void escogerPremiados() {
         List<Factura> listaDeFacturas = facturaController.getFactOrderByClient();
+Long id = 0L;
         for (Factura factura : listaDeFacturas) {
             if (cumpleCondiciones(factura)) {
-                Premio premio = new Premio(factura, escogerObsequio(factura.getId()));
+                Premio premio = new Premio(id++, factura, escogerObsequio(factura.getId()));
                 premio.setEstado(Estado.ESPERA);
                 premioController.registrarPremio(premio);
             }

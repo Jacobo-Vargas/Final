@@ -31,7 +31,8 @@ public class Premio {
     @Column(name = "NUMEROAVION")
     private int numeroAvion;
 
-    public Premio(Factura factura, Obsequio obsequio) {
+    public Premio(Long id, Factura factura, Obsequio obsequio) {
+this.id = id;
         this.factura = factura;
         this.obsequio = obsequio;
         this.nombreCliente = factura.getCliente().getNombre() + factura.getCliente().getApellido();

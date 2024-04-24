@@ -25,6 +25,9 @@ public class CargarClienteViewController {
     private TableView<ClienteDTO> tableClientes;
 
     @FXML
+    private TableColumn<ClienteDTO, String> tcPrioridadEnvio;
+
+    @FXML
     private TableColumn<ClienteDTO, String> tcApellido;
 
     @FXML
@@ -99,6 +102,7 @@ public class CargarClienteViewController {
     }
 
     private void initDataBinding() {
+        tcPrioridadEnvio.setCellValueFactory(cellData -> new SimpleStringProperty( String.valueOf(cellData.getValue().getPrioridadEnvio())));
         tcCedula.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getCedula().toString()));
         tcApellido.setCellValueFactory(cellData -> new SimpleStringProperty(String.valueOf(cellData.getValue().getApellido())));
         tcNombre.setCellValueFactory(cellData -> new SimpleStringProperty(String.valueOf(cellData.getValue().getNombre())));

@@ -25,6 +25,7 @@
                     <TableColumn fx:id="tcId" prefWidth="125.0" text="ID" />
                     <TableColumn fx:id="tcNombreCLiente" prefWidth="254.0" text="NOMBRE CLIENTE" />
                     <TableColumn fx:id="tcFecha" prefWidth="189.0" text="FECHA" />
+                    <TableColumn fx:id="tcTotal" prefWidth="189.0" text="TOTAL" />
                 </columns>
                 <VBox.margin>
                     <Insets bottom="5.0" left="120.0" right="120.0" top="30.0" />

@@ -4,5 +4,6 @@ public enum Categoria {
 
     ALIMENTOS,
     TECNOLOGIA,
-    ELECTRODOMESTICOS
+    ELECTRODOMESTICOS,
+    COSMETICOS
 }

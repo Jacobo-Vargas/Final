@@ -9,8 +9,9 @@ public class ClienteDTO {
     private Long telefono;
     private int edad;
     private Genero genero;
+    private  int prioridadEnvio;
 
-    public ClienteDTO(Long cedula, String nombre, String apellido, String direccion, Long telefono, int edad, Genero genero) {
+    public ClienteDTO(Long cedula, String nombre, String apellido, String direccion, Long telefono, int edad, Genero genero, int prioridadEnvio) {
         this.cedula = cedula;
         this.nombre = nombre;
         this.apellido = apellido;
@@ -18,6 +19,15 @@ public class ClienteDTO {
         this.telefono = telefono;
         this.edad = edad;
         this.genero = genero;
+        this.prioridadEnvio = prioridadEnvio;
+    }
+
+    public int getPrioridadEnvio() {
+        return prioridadEnvio;
+    }
+
+    public void setPrioridadEnvio(int prioridadEnvio) {
+        this.prioridadEnvio = prioridadEnvio;
     }
 
     public Long getCedula() {

@@ -24,13 +24,15 @@ public class CargarFacturaViewController {
     public Label lblNombreArchivo;
     @FXML
     public TableView<FacturaDTO> tableFacturas;
-
     @FXML
     public TableColumn<FacturaDTO, String>  tcId;
     @FXML
     public TableColumn<FacturaDTO, String> tcFecha;
     @FXML
     public TableColumn<FacturaDTO, String> tcNombreCLiente;
+
+    @FXML
+    public TableColumn<FacturaDTO, String> tcTotal;
 
     private ObservableList<FacturaDTO> listaFactura;
 
@@ -89,5 +91,7 @@ public class CargarFacturaViewController {
         tcId.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getId().toString()));
         tcNombreCLiente.setCellValueFactory(cellData -> new SimpleStringProperty(String.valueOf(cellData.getValue().getCliente().getNombre())));
         tcFecha.setCellValueFactory(cellData -> new SimpleStringProperty(String.valueOf(cellData.getValue().getFecha())));
+        tcTotal.setCellValueFactory(cellData -> new SimpleStringProperty(String.valueOf(cellData.getValue().getTotal())));
+
     }
 }

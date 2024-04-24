@@ -46,7 +46,7 @@ public class PremioService {
             mercadoUtilService.escogerPremiados();
             return ResponseEntity.ok().body("Proceso exitoso.");
         }catch (Exception e){
-            return ResponseEntity.badRequest().body("Ocurrió un error.");
+            return ResponseEntity.badRequest().body("Ocurrió un error. " + e);
         }
     }
 

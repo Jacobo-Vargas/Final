@@ -53,7 +53,6 @@ public class CargarDetalleFacturaViewController {
     public void load() {
         try {
             if (archivoSeleccionado != null) {
-                System.out.println("Aqui ya tenemos el archivo");
                 List<String> noRegistrados = apiDetalleFacturaService.registrarDetalleFacturas(archivoSeleccionado);
                 actualizarTabla();
                 if (!noRegistrados.isEmpty()) {
@@ -66,7 +65,6 @@ public class CargarDetalleFacturaViewController {
                     MercadoUtils.alerta("Éxito", "Se realizó el registro de detalles de factura con éxito.", Alert.AlertType.CONFIRMATION);
                 }
             } else {
-                System.out.println("Aqui ya tenemos y es null");
 
                 actualizarTabla();
             }

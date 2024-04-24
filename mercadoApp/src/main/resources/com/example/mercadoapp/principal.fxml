@@ -10,7 +10,19 @@
     <tabs>
         <Tab text="Principal">
             <content>
-                <VBox prefHeight="200.0" prefWidth="100.0"/>
+                <VBox alignment="TOP_CENTER" prefHeight="200.0" prefWidth="100.0">
+                    <children>
+                        <TabPane prefHeight="504.0" prefWidth="759.0" tabClosingPolicy="UNAVAILABLE">
+                            <tabs>
+                                <Tab text="Cargar Premiados">
+                                    <content>
+                                        <fx:include source="cargarPaises.fxml"/>
+                                    </content>
+                                </Tab>
+                            </tabs>
+                        </TabPane>
+                    </children>
+                </VBox>
             </content>
         </Tab>
         <Tab text="Cargar datos">
@@ -34,9 +46,21 @@
                                         <fx:include source="cargarFactura.fxml"/>
                                     </content>
                                 </Tab>
+
+                                <Tab text="Cargar Productos">
+                                    <content>
+                                        <fx:include source="cargarProductos.fxml"/>
+                                    </content>
+                                </Tab>
                                 <Tab text="Cargar Detalle Facturas">
                                     <content>
                                         <fx:include source="cargarDetalleFactura.fxml"/>
+                                    </content>
+                                </Tab>
+
+                                <Tab text="Cargar Obsequios">
+                                    <content>
+                                        <fx:include source="cargarObsequios.fxml"/>
                                     </content>
                                 </Tab>
 

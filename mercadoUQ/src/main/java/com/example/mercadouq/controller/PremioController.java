@@ -15,7 +15,7 @@ public class PremioController {
     @Autowired
     private PremioService premioService;
 
-    @GetMapping("/registrarPremio")
+    @PostMapping("/registrarPremio")
     public ResponseEntity<?> registrarPremio(@RequestBody Premio premio){
         return premioService.registrarPremio(premio);
     }

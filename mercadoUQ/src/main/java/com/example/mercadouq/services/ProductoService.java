@@ -57,4 +57,9 @@ public class ProductoService {
     public ResponseEntity<?> obtenerProductoById(Long id){
         return ResponseEntity.ok().body(productoRepository.findById(id).orElse(null));
     }
+
+    public List<Producto> obtenerProductos() {
+return  productoRepository.findAll();
+
+    }
 }

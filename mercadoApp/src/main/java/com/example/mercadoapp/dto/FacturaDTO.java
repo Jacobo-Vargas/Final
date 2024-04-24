@@ -7,13 +7,24 @@ public class FacturaDTO {
     private Date fecha;
     private ClienteDTO cliente;
 
-    public FacturaDTO(Long id, Date fecha, ClienteDTO cliente) {
+    private double total;
+
+    public FacturaDTO(Long id, Date fecha, ClienteDTO cliente, double total) {
         this.id = id;
         this.fecha = fecha;
         this.cliente = cliente;
+        this.total = total;
     }
 
     // Getters y setters
+
+    public double getTotal() {
+        return total;
+    }
+
+    public void setTotal(double total) {
+        this.total = total;
+    }
 
     public Long getId() {
         return id;

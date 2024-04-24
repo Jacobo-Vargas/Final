@@ -4,6 +4,9 @@ import com.example.mercadouq.entities.enums.Categoria;
 import jakarta.persistence.*;
 import lombok.Data;
 
+import java.util.Date;
+import java.util.List;
+
 @Entity
 @Data
 @Table(name = "OBSEQUIOS")
@@ -24,5 +27,21 @@ public class Obsequio {
 
     @Column(name = "PRIORIDAD", nullable = false)
     private Integer prioridad;
+
+    public Obsequio(Long id, String nombre, Categoria categoria, Integer prioridad ) {
+        this.id = id;
+        this.nombre = nombre;
+        this.categoria = categoria;
+        this.prioridad = prioridad;
+
+
+    }
+
+
+
+
+    public Obsequio() {
+
+    }
 
 }
