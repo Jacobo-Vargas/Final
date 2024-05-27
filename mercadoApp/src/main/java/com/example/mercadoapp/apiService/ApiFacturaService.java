@@ -1,6 +1,7 @@
 package com.example.mercadoapp.apiService;
 
 import com.example.mercadoapp.dto.FacturaDTO;
+import com.example.mercadoapp.util.MercadoUtils;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import okhttp3.*;
@@ -25,7 +26,7 @@ public class ApiFacturaService {
         ArrayList<FacturaDTO> respuesta = new ArrayList<>();
         respuesta.ensureCapacity(200);
 
-        URL url = new URL("http://localhost:8080/obtenerFacturas");
+        URL url = new URL(MercadoUtils.URL + "/obtenerFacturas");
         Request request = new Request.Builder().url(url).get().build(); // crea la solicitud POST
 
         try(Response response = client.newCall(request).execute()){
@@ -44,7 +45,7 @@ public class ApiFacturaService {
         ArrayList<String> respuesta = new ArrayList<>();
         respuesta.ensureCapacity(500);
 
-        URL url = new URL("http://localhost:8080/registrarFacturas"); // url del endpoint
+        URL url = new URL(MercadoUtils.URL + "/registrarFacturas"); // url del endpoint
 
 
         RequestBody requestBody = new MultipartBody.Builder()

@@ -11,6 +11,7 @@ import java.util.Base64;
 import java.util.List;
 
 import com.example.mercadoapp.util.ApiHelper;
+import com.example.mercadoapp.util.MercadoUtils;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import okhttp3.*;
@@ -91,7 +92,7 @@ public class ApiClienteService {
 
     public ClienteDTO obtenerById(Long id) throws MalformedURLException {
         ClienteDTO resultado = null;
-        URL url = new URL("http://localhost:8080/eliminarCliente/" + id); // url del endpoint
+        URL url = new URL(MercadoUtils.URL + "/eliminarCliente/" + id); // url del endpoint
         Request request = new Request.Builder().url(url).get().build();
         try (Response response = client.newCall(request).execute()) {
             if (response.isSuccessful()) {

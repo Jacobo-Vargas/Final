@@ -1,7 +1,9 @@
 package com.example.mercadoapp.apiService;
 
+import com.example.mercadoapp.MercadoUQ;
 import com.example.mercadoapp.dto.FacturaDTO;
 import com.example.mercadoapp.dto.ProductoDTO;
+import com.example.mercadoapp.util.MercadoUtils;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import okhttp3.*;
@@ -26,7 +28,7 @@ public class ApiProductoService {
         ArrayList<ProductoDTO> respuesta = new ArrayList<>();
         respuesta.ensureCapacity(200);
 
-        URL url = new URL("http://localhost:8080/obtenerProductos");
+        URL url = new URL(MercadoUtils.URL + "/obtenerProductos");
         Request request = new Request.Builder().url(url).get().build(); // crea la solicitud GET
 
         try(Response response = client.newCall(request).execute()){
@@ -45,7 +47,7 @@ public class ApiProductoService {
         ArrayList<String> respuesta = new ArrayList<>();
         respuesta.ensureCapacity(500);
 
-        URL url = new URL("http://localhost:8080/registrarProductos"); // url del endpoint
+        URL url = new URL(MercadoUtils.URL + "/registrarProductos"); // url del endpoint
 
 
         RequestBody requestBody = new MultipartBody.Builder()

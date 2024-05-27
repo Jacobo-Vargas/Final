@@ -16,6 +16,8 @@ import java.util.List;
 
 public class MercadoUtils {
 
+    public static final String URL = "http://localhost:8081";
+
     public static File buscarArchivo() {
         FileChooser fileChooser = new FileChooser();
         fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("CSV", "*.csv"));
