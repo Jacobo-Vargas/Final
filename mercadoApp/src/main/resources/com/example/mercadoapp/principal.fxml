@@ -4,17 +4,20 @@
 <?import javafx.scene.control.TabPane?>
 <?import javafx.scene.layout.VBox?>
 
+
+<?import java.net.URL?>
 <TabPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="525.0"
          prefWidth="760.0" tabClosingPolicy="UNAVAILABLE" xmlns="http://javafx.com/javafx/17.0.6"
          xmlns:fx="http://javafx.com/fxml/1">
+
     <tabs>
-        <Tab text="Principal">
+        <Tab text="Principal" styleClass="tabs">
             <content>
                 <VBox alignment="TOP_CENTER" prefHeight="200.0" prefWidth="100.0">
                     <children>
                         <TabPane prefHeight="504.0" prefWidth="759.0" tabClosingPolicy="UNAVAILABLE">
                             <tabs>
-                                <Tab text="Cargar Premiados">
+                                <Tab text="Cargar Premiados" styleClass="tabs">
                                     <content>
                                         <fx:include source="cargarPaises.fxml"/>
                                     </content>
@@ -25,40 +28,40 @@
                 </VBox>
             </content>
         </Tab>
-        <Tab text="Cargar datos">
+        <Tab text="Cargar datos" styleClass="tabs">
             <content>
                 <VBox alignment="TOP_CENTER" prefHeight="200.0" prefWidth="100.0">
                     <children>
                         <TabPane prefHeight="504.0" prefWidth="759.0" tabClosingPolicy="UNAVAILABLE">
                             <tabs>
-                                <Tab text="Cargar Paises">
+                                <Tab text="Cargar Paises" styleClass="tabs">
                                     <content>
                                         <fx:include source="cargarPaises.fxml"/>
                                     </content>
                                 </Tab>
-                                <Tab text="Cargar Clientes">
+                                <Tab text="Cargar Clientes" styleClass="tabs">
                                     <content>
                                         <fx:include source="cargarClientes.fxml"/>
                                     </content>
                                 </Tab>
-                                <Tab text="Cargar Facturas">
+                                <Tab text="Cargar Facturas" styleClass="tabs">
                                     <content>
                                         <fx:include source="cargarFactura.fxml"/>
                                     </content>
                                 </Tab>
 
-                                <Tab text="Cargar Productos">
+                                <Tab text="Cargar Productos" styleClass="tabs">
                                     <content>
                                         <fx:include source="cargarProductos.fxml"/>
                                     </content>
                                 </Tab>
-                                <Tab text="Cargar Detalle Facturas">
+                                <Tab text="Cargar Detalle Facturas" styleClass="tabs">
                                     <content>
                                         <fx:include source="cargarDetalleFactura.fxml"/>
                                     </content>
                                 </Tab>
 
-                                <Tab text="Cargar Obsequios">
+                                <Tab text="Cargar Obsequios" styleClass="tabs">
                                     <content>
                                         <fx:include source="cargarObsequios.fxml"/>
                                     </content>

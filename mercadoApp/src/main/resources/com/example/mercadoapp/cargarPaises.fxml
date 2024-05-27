@@ -20,7 +20,7 @@
     </rowConstraints>
     <children>
         <VBox prefHeight="200.0" prefWidth="100.0">
-            <TableView fx:id="tablePaises" prefHeight="336.0" prefWidth="704.0">
+            <TableView fx:id="tablePaises" prefHeight="336.0" prefWidth="704.0" styleClass="tableStyle">
                 <columns>
                     <TableColumn fx:id="tcId" prefWidth="125.0" text="ID" />
                     <TableColumn fx:id="tcNombre" prefWidth="254.0" text="NOMBRE" />
@@ -33,7 +33,7 @@
             <HBox alignment="CENTER" prefHeight="112.0" prefWidth="660.0">
                 <children>
                     <Label fx:id="lblNombreArchivo" prefHeight="17.0" prefWidth="112.0" text="......" />
-                    <JFXButton onAction="#selectFile" text="Seleccionar archivo" />
+                    <JFXButton  onAction="#selectFile" text="Seleccionar archivo" />
                     <JFXButton onAction="#load" text="Confirmar">
                         <HBox.margin>
                             <Insets left="35.0" />

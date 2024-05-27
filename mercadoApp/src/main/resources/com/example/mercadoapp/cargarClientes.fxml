@@ -20,7 +20,7 @@
     </rowConstraints>
     <children>
         <VBox prefHeight="200.0" prefWidth="100.0">
-            <TableView fx:id="tableClientes" prefHeight="391.0" prefWidth="156.0">
+            <TableView fx:id="tableClientes" prefHeight="391.0" prefWidth="156.0" styleClass="tableStyle" >
                 <columns>
                     <TableColumn fx:id="tcPrioridadEnvio" prefWidth="101.0" text="PRIORIDAD DE ENVIO" />
                     <TableColumn fx:id="tcCedula" prefWidth="101.0" text="ID" />

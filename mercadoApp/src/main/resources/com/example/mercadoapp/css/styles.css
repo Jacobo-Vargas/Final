@@ -1,0 +1,87 @@
+/* Estilo para las pestañas */
+.tabs{
+    -fx-font-family: "Arial"; /* Fuente */
+    -fx-font-size: 12px; /* Tamaño de fuente */
+    -fx-text-fill: #ffffff ; /* Color del texto */
+    -fx-padding: 5px 10px; /* Espaciado interior (arriba, derecha, abajo, izquierda) */
+    -fx-background-color: #9672cf;
+    -fx-alignment: CENTER_LEFT;
+    -fx-font-weight: bold;
+}
+
+.tabs:selected {
+    -fx-background-color: rgba(204, 154, 239, 0.8);/* Color de fondo cuando la pestaña está seleccionada */
+    -fx-text-fill: #ffffff; /* Color del texto cuando la pestaña está seleccionada */
+}
+
+
+/* Estilo para los botones*/
+.button {
+    -fx-background-color: #9672cf; /* Color de fondo */
+    -fx-font-family: "Arial"; /* Fuente */
+    -fx-font-size: 14px; /* Tamaño de fuente */
+    -fx-text-fill: #ffffff; /* Color del texto (opcional, pero recomendado para asegurarse de que el texto sea legible) */
+    -fx-effect: dropshadow(gaussian, #888888, 5, 0, 5, 5); /* Sombra con valores apropiados */
+    -fx-background-radius: 5;
+    -fx-font-weight: bold;
+}
+
+/* Estilo para la tabla */
+.tableStyle {
+    -fx-font-family: "Arial";
+    -fx-font-size: 12px;
+    -fx-text-fill: #333333;
+    -fx-padding: 5px 10px;
+    -fx-background-color: rgba(204, 154, 239, 0.8);
+    -fx-alignment: center;
+    -fx-font-weight: bold;
+}
+
+/* Estilo para el fondo de las cabeceras de columna */
+.tableStyle .column-header-background {
+    -fx-font-family: "Arial";
+    -fx-font-size: 13px;
+    -fx-text-fill: #ffffff;
+    -fx-background-color: #382352;
+    -fx-alignment: center;
+}
+
+/* Estilo para el texto en las cabeceras de columna */
+.tableStyle .column-header .label {
+    -fx-font-weight: bold;
+}
+
+/* Estilo para las celdas de la tabla */
+.tableStyle .table-cell {
+    -fx-alignment: center;
+    -fx-padding: 5px 10px;
+}
+
+.buttonConImagen{
+    -fx-background-color: transparent;
+    -fx-alignment: top-left;
+    -fx-effect: dropshadow(gaussian, #888888, 5, 0, 5, 5); /* Sombra con valores apropiados */
+}
+
+
+
+.tiulo{
+    -fx-font-family: "Arial"; /* Fuente */
+    -fx-font-size: 30px; /* Tamaño de fuente */
+    -fx-text-fill: #9672cf; /* Color del texto */
+    -fx-padding: 5 10 5 10; /* Espaciado interior (arriba, derecha, abajo, izquierda) */
+    -fx-background-color: transparent;
+    -fx-alignment: center;
+    -fx-font-weight: bold; /* Fuente negrita */
+}
+
+.tituloRadioButton{
+    -fx-font-family: "Arial"; /* Fuente */
+    -fx-font-size: 12px; /* Tamaño de fuente */
+    -fx-text-fill: #382352; /* Color del texto */
+    -fx-padding: 5 10 5 10; /* Espaciado interior (arriba, derecha, abajo, izquierda) */
+    -fx-background-color: transparent;
+    -fx-font-weight: bold; /* Fuente negrita */
+
+}
+
