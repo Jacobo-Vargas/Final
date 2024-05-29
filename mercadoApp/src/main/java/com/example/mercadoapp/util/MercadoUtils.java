@@ -1,22 +1,13 @@
 package com.example.mercadoapp.util;
 
 
-import com.example.mercadoapp.dto.ClienteDTO;
-import com.example.mercadoapp.dto.Genero;
 import javafx.scene.control.Alert;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
-import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileReader;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 
 public class MercadoUtils {
-
-    public static final String URL = "http://localhost:8081";
 
     public static File buscarArchivo() {
         FileChooser fileChooser = new FileChooser();

@@ -1,7 +1,7 @@
 package com.example.mercadoapp.apiService;
 
 import com.example.mercadoapp.dto.PaisDTO;
-import com.example.mercadoapp.util.MercadoUtils;
+import com.example.mercadoapp.util.ApiHelper;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import okhttp3.*;
@@ -26,7 +26,7 @@ public class ApiPaisService {
         ArrayList<PaisDTO> respuesta = new ArrayList<>();
         respuesta.ensureCapacity(200);
 
-        URL url = new URL(MercadoUtils.URL + "/obtenerPaises");
+        URL url = new URL(ApiHelper.baseUrl + "/obtenerPaises");
         Request request = new Request.Builder().url(url).get().build(); // crea la solicitud POST
 
         try(Response response = client.newCall(request).execute()){
@@ -45,7 +45,7 @@ public class ApiPaisService {
         ArrayList<String> respuesta = new ArrayList<>();
         respuesta.ensureCapacity(500);
 
-        URL url = new URL(MercadoUtils.URL + "/registrarPaises"); // url del endpoint
+        URL url = new URL(ApiHelper.baseUrl + "/registrarPaises"); // url del endpoint
 
 
         RequestBody requestBody = new MultipartBody.Builder()

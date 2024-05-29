@@ -1,5 +1,6 @@
 package com.example.mercadoapp.viewController;
 
+import com.example.mercadoapp.MercadoUQ;
 import com.example.mercadoapp.apiService.ApiObsequioService;
 import com.example.mercadoapp.dto.ObsequioDTO;
 import com.example.mercadoapp.util.MercadoUtils;
@@ -11,6 +12,8 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 
 import java.io.File;
 import java.util.List;
@@ -34,7 +37,14 @@ public class CargarObsequiosViewController {
     private File archivoSeleccionado;
     private ApiObsequioService apiObsequioService;
 
+    @FXML
+    private ImageView backgroundImage;
+
     public void initialize() {
+        // Load the image
+        Image image = new Image(MercadoUQ.class.getResource("background.png").toExternalForm());
+        backgroundImage.setImage(image);
+
         this.apiObsequioService = new ApiObsequioService();
         initDataBinding();
     }

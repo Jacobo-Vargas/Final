@@ -1,25 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.Tab?>
-<?import javafx.scene.control.TabPane?>
-<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
 
-
-<?import java.net.URL?>
-<TabPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="525.0"
-         prefWidth="760.0" tabClosingPolicy="UNAVAILABLE" xmlns="http://javafx.com/javafx/17.0.6"
-         xmlns:fx="http://javafx.com/fxml/1">
+<TabPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="525.0" prefWidth="760.0" tabClosingPolicy="UNAVAILABLE" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1">
 
     <tabs>
-        <Tab text="Principal" styleClass="tabs">
+        <Tab styleClass="tabs" text="Principal">
             <content>
                 <VBox alignment="TOP_CENTER" prefHeight="200.0" prefWidth="100.0">
                     <children>
                         <TabPane prefHeight="504.0" prefWidth="759.0" tabClosingPolicy="UNAVAILABLE">
                             <tabs>
-                                <Tab text="Cargar Premiados" styleClass="tabs">
+                                <Tab styleClass="tabs" text="Cargar Premiados">
                                     <content>
-                                        <fx:include source="cargarPaises.fxml"/>
+                                        <fx:include source="cargarPaises.fxml" />
                                     </content>
                                 </Tab>
                             </tabs>
@@ -28,42 +23,42 @@
                 </VBox>
             </content>
         </Tab>
-        <Tab text="Cargar datos" styleClass="tabs">
+        <Tab styleClass="tabs" text="Cargar datos">
             <content>
                 <VBox alignment="TOP_CENTER" prefHeight="200.0" prefWidth="100.0">
                     <children>
                         <TabPane prefHeight="504.0" prefWidth="759.0" tabClosingPolicy="UNAVAILABLE">
                             <tabs>
-                                <Tab text="Cargar Paises" styleClass="tabs">
+                                <Tab styleClass="tabs" text="Cargar Paises">
                                     <content>
-                                        <fx:include source="cargarPaises.fxml"/>
+                                        <fx:include source="cargarPaises.fxml" />
                                     </content>
                                 </Tab>
-                                <Tab text="Cargar Clientes" styleClass="tabs">
+                                <Tab styleClass="tabs" text="Cargar Clientes">
                                     <content>
-                                        <fx:include source="cargarClientes.fxml"/>
+                                        <fx:include source="cargarClientes.fxml" />
                                     </content>
                                 </Tab>
-                                <Tab text="Cargar Facturas" styleClass="tabs">
+                                <Tab styleClass="tabs" text="Cargar Facturas">
                                     <content>
-                                        <fx:include source="cargarFactura.fxml"/>
-                                    </content>
-                                </Tab>
-
-                                <Tab text="Cargar Productos" styleClass="tabs">
-                                    <content>
-                                        <fx:include source="cargarProductos.fxml"/>
-                                    </content>
-                                </Tab>
-                                <Tab text="Cargar Detalle Facturas" styleClass="tabs">
-                                    <content>
-                                        <fx:include source="cargarDetalleFactura.fxml"/>
+                                        <fx:include source="cargarFactura.fxml" />
                                     </content>
                                 </Tab>
 
-                                <Tab text="Cargar Obsequios" styleClass="tabs">
+                                <Tab styleClass="tabs" text="Cargar Productos">
                                     <content>
-                                        <fx:include source="cargarObsequios.fxml"/>
+                                        <fx:include source="cargarProductos.fxml" />
+                                    </content>
+                                </Tab>
+                                <Tab styleClass="tabs" text="Cargar Detalle Facturas">
+                                    <content>
+                                        <fx:include source="cargarDetalleFactura.fxml" />
+                                    </content>
+                                </Tab>
+
+                                <Tab styleClass="tabs" text="Cargar Obsequios">
+                                    <content>
+                                        <fx:include source="cargarObsequios.fxml" />
                                     </content>
                                 </Tab>
 

@@ -37,17 +37,12 @@
     -fx-font-weight: bold;
 }
 
-/* Estilo para el fondo de las cabeceras de columna */
-.tableStyle .column-header-background {
+/* Estilo para el texto en las cabeceras de columna */
+.tablehead {
     -fx-font-family: "Arial";
     -fx-font-size: 13px;
-    -fx-text-fill: #ffffff;
-    -fx-background-color: #382352;
+    -fx-background-color: rgba(61, 244, 244, 0.8);
     -fx-alignment: center;
-}
-
-/* Estilo para el texto en las cabeceras de columna */
-.tableStyle .column-header .label {
     -fx-font-weight: bold;
 }
 
@@ -65,7 +60,7 @@
 
 
 
-.tiulo{
+.titulo{
     -fx-font-family: "Arial"; /* Fuente */
     -fx-font-size: 30px; /* Tamaño de fuente */
     -fx-text-fill: #9672cf; /* Color del texto */

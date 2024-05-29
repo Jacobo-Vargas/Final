@@ -1,5 +1,6 @@
 package com.example.mercadoapp.viewController;
 
+import com.example.mercadoapp.MercadoUQ;
 import com.example.mercadoapp.dto.ClienteDTO;
 import com.example.mercadoapp.apiService.ApiClienteService;
 import com.example.mercadoapp.util.MercadoUtils;
@@ -11,6 +12,8 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 
 import java.io.File;
 import java.util.List;
@@ -54,7 +57,14 @@ public class CargarClienteViewController {
 
     private ApiClienteService apiClienteService;
 
+    @FXML
+    private ImageView backgroundImage;
+
+
     public void initialize(){
+        // Load the image
+        Image image = new Image(MercadoUQ.class.getResource("background.png").toExternalForm());
+        backgroundImage.setImage(image);
         this.apiClienteService = new ApiClienteService();
         initDataBinding();
     }

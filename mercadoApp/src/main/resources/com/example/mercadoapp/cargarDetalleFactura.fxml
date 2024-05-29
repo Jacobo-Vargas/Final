@@ -1,55 +1,59 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import com.jfoenix.controls.JFXButton?>
-<?import javafx.geometry.Insets?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.control.TableColumn?>
-<?import javafx.scene.control.TableView?>
-<?import javafx.scene.layout.ColumnConstraints?>
-<?import javafx.scene.layout.GridPane?>
-<?import javafx.scene.layout.HBox?>
-<?import javafx.scene.layout.RowConstraints?>
-<?import javafx.scene.layout.VBox?>
+<?import com.jfoenix.controls.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
 
-<GridPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="438.0" prefWidth="809.0" xmlns="http://javafx.com/javafx/17.0.6" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.mercadoapp.viewController.CargarDetalleFacturaViewController">
-    <columnConstraints>
-        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-    </columnConstraints>
-    <rowConstraints>
-        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-    </rowConstraints>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.*?>
+
+<StackPane xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.mercadoapp.viewController.CargarDetalleFacturaViewController">
     <children>
-        <VBox prefHeight="200.0" prefWidth="100.0">
-            <TableView fx:id="tableDetallesFactura" prefHeight="336.0" prefWidth="704.0" styleClass="tableStyle">
-                <columns>
-                    <TableColumn fx:id="tcId" prefWidth="125.0" text="ID" />
-                    <TableColumn fx:id="tcIdFactura" prefWidth="125.0" text="ID FACTURA" />
-                    <TableColumn fx:id="tcProducto" prefWidth="254.0" text="PRODUCTO" />
-                    <TableColumn fx:id="tcCantidad" prefWidth="100.0" text="CANTIDAD" />
-                    <TableColumn fx:id="tcValorUnitario" prefWidth="100.0" text="VALOR UNITARIO" />
-                    <TableColumn fx:id="tcTotal" prefWidth="100.0" text="TOTAL" />
-                </columns>
-                <VBox.margin>
-                    <Insets bottom="5.0" left="120.0" right="120.0" top="30.0" />
-                </VBox.margin>
-            </TableView>
-            <HBox alignment="CENTER" prefHeight="112.0" prefWidth="660.0">
-                <children>
-                    <Label fx:id="lblNombreArchivo" prefHeight="17.0" prefWidth="112.0" text="......" />
-                    <JFXButton onAction="#selectFile" text="Seleccionar archivo" />
-                    <JFXButton onAction="#load" text="Confirmar">
-                        <HBox.margin>
-                            <Insets left="35.0" />
-                        </HBox.margin>
-                    </JFXButton>
-                </children>
-                <opaqueInsets>
-                    <Insets />
-                </opaqueInsets>
-                <VBox.margin>
-                    <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
-                </VBox.margin>
-            </HBox>
-        </VBox>
+        <!-- Background Image -->
+        <ImageView fx:id="backgroundImage" fitHeight="438.0" fitWidth="809.0" preserveRatio="false" />
+        <GridPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="438.0" prefWidth="809.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" >
+            <columnConstraints>
+                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+            </columnConstraints>
+            <rowConstraints>
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            </rowConstraints>
+            <children>
+                <VBox prefHeight="200.0" prefWidth="100.0">
+                 <Label styleClass="titulo" text="Detalle de Facturas" translateX="400.0" />
+                    <TableView fx:id="tableDetallesFactura" prefHeight="336.0" prefWidth="800.0" styleClass="tableStyle">
+                        <columns>
+                            <TableColumn fx:id="tcId" prefWidth="75.0" text="ID" />
+                            <TableColumn fx:id="tcIdFactura" prefWidth="97.0" text="ID FACTURA" />
+                            <TableColumn fx:id="tcProducto" prefWidth="120.0" text="PRODUCTO" />
+                            <TableColumn fx:id="tcCantidad" prefWidth="71.0" text="CANTIDAD" />
+                            <TableColumn fx:id="tcValorUnitario" prefWidth="120.0" text="VALOR UNITARIO" />
+                            <TableColumn fx:id="tcTotal" prefWidth="65.0" text="TOTAL" />
+                        </columns>
+                        <VBox.margin>
+                            <Insets bottom="5.0" left="120.0" right="120.0" top="30.0" />
+                        </VBox.margin>
+                    </TableView>
+                    <HBox alignment="CENTER" prefHeight="112.0" prefWidth="660.0">
+                        <children>
+                            <Label fx:id="lblNombreArchivo" prefHeight="17.0" prefWidth="112.0" text="......" />
+                            <JFXButton onAction="#selectFile" text="Seleccionar archivo" />
+                            <JFXButton onAction="#load" text="Confirmar">
+                                <HBox.margin>
+                                    <Insets left="35.0" />
+                                </HBox.margin>
+                            </JFXButton>
+                        </children>
+                        <opaqueInsets>
+                            <Insets />
+                        </opaqueInsets>
+                        <VBox.margin>
+                            <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                        </VBox.margin>
+                    </HBox>
+                </VBox>
+            </children>
+        </GridPane>
     </children>
-</GridPane>
+</StackPane>
